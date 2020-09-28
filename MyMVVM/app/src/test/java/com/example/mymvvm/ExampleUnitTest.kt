@@ -1,4 +1,4 @@
-package com.example.mymvvm
+package com.oxcoding.mymvvm
 
 import org.junit.Test
 
