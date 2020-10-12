@@ -1,22 +1,23 @@
-package com.example.mymvvm.ui.popular_movie
+package com.example.mymvvm.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.example.mymvvm.data.repository.NetworkState
-import com.example.mymvvm.data.vo.Movie
+import com.example.mymvvm.data.model.Movie
+import com.example.mymvvm.domain.MoviePagedListUseCase
 import io.reactivex.disposables.CompositeDisposable
 
-class MainActivityViewModel(private val movieRepository : MoviePagedListRepository) : ViewModel() {
+class MainActivityViewModel(private val moviePagedListUseCase: MoviePagedListUseCase ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
     val  moviePagedList : LiveData<PagedList<Movie>> by lazy {
-        movieRepository.fetchLiveMoviePagedList(compositeDisposable)
+        moviePagedListUseCase.getLiveMoviePagedList(compositeDisposable)
     }
 
     val  networkState : LiveData<NetworkState> by lazy {
-        movieRepository.getNetworkState()
+        moviePagedListUseCase.NetworkState()
     }
 
     fun listIsEmpty(): Boolean {

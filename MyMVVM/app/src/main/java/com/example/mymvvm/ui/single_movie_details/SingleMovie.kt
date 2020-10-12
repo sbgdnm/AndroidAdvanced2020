@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.oxcoding.mymvvm.R
-import com.example.mymvvm.data.api.POSTER_BASE_URL
 import com.example.mymvvm.data.api.TheMovieDBClient
 import com.example.mymvvm.data.api.TheMovieDBInterface
 import com.example.mymvvm.data.repository.NetworkState
-import com.example.mymvvm.data.vo.MovieDetails
+import com.example.mymvvm.data.model.MovieDetails
+import com.example.mymvvm.domain.MovieDetailsRepository
+import com.example.mymvvm.domain.MovieDetailsUseCase
+import com.example.mymvvm.viewmodel.SingleMovieViewModel
+import com.example.mymvvm.utils.Constants.Companion.POSTER_BASE_URL
 import kotlinx.android.synthetic.main.activity_single_movie.*
 import java.text.NumberFormat
 import java.util.*
@@ -21,7 +24,7 @@ import java.util.*
 class SingleMovie : AppCompatActivity() {
 
     private lateinit var viewModel: SingleMovieViewModel
-    private lateinit var movieRepository: MovieDetailsRepository
+    private lateinit var movieRepository: MovieDetailsUseCase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +34,7 @@ class SingleMovie : AppCompatActivity() {
         val movieId: Int = intent.getIntExtra("id",1)
 
         val apiService : TheMovieDBInterface = TheMovieDBClient.getClient()
-        movieRepository = MovieDetailsRepository(apiService)
+        movieRepository = MovieDetailsUseCase(MovieDetailsRepository(apiService))
 
         viewModel = getViewModel(movieId)
 

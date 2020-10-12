@@ -1,15 +1,15 @@
-package com.example.mymvvm.ui.popular_movie
+package com.example.mymvvm.domain
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.mymvvm.data.api.POST_PER_PAGE
+import com.example.mymvvm.utils.Constants.Companion.POST_PER_PAGE
 import com.example.mymvvm.data.api.TheMovieDBInterface
 import com.example.mymvvm.data.repository.MovieDataSource
 import com.example.mymvvm.data.repository.MovieDataSourceFactory
 import com.example.mymvvm.data.repository.NetworkState
-import com.example.mymvvm.data.vo.Movie
+import com.example.mymvvm.data.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class MoviePagedListRepository (private val apiService : TheMovieDBInterface) {

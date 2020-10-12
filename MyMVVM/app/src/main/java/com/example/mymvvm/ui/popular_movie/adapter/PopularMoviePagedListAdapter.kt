@@ -1,4 +1,4 @@
-package com.example.mymvvm.ui.popular_movie
+package com.example.mymvvm.ui.popular_movie.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oxcoding.mymvvm.R
-import com.example.mymvvm.data.api.POSTER_BASE_URL
 import com.example.mymvvm.data.repository.NetworkState
-import com.example.mymvvm.data.vo.Movie
+import com.example.mymvvm.data.model.Movie
 import com.example.mymvvm.ui.single_movie_details.SingleMovie
+import com.example.mymvvm.utils.Constants.Companion.POSTER_BASE_URL
 import kotlinx.android.synthetic.main.movie_list_item.view.*
 import kotlinx.android.synthetic.main.network_state_item.view.*
 

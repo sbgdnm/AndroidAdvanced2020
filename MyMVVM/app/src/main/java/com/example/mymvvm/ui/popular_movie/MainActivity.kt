@@ -12,13 +12,17 @@ import com.oxcoding.mymvvm.R
 import com.example.mymvvm.data.api.TheMovieDBClient
 import com.example.mymvvm.data.api.TheMovieDBInterface
 import com.example.mymvvm.data.repository.NetworkState
+import com.example.mymvvm.domain.MoviePagedListRepository
+import com.example.mymvvm.domain.MoviePagedListUseCase
+import com.example.mymvvm.ui.popular_movie.adapter.PopularMoviePagedListAdapter
+import com.example.mymvvm.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
 
-    lateinit var movieRepository: MoviePagedListRepository
+    lateinit var movieRepository: MoviePagedListUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val apiService : TheMovieDBInterface = TheMovieDBClient.getClient()
 
-        movieRepository = MoviePagedListRepository(apiService)
+        movieRepository = MoviePagedListUseCase(MoviePagedListRepository(apiService))
 
         viewModel = getViewModel()
 

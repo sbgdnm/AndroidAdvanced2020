@@ -3,7 +3,7 @@ package com.example.mymvvm.data.repository
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.example.mymvvm.data.api.TheMovieDBInterface
-import com.example.mymvvm.data.vo.Movie
+import com.example.mymvvm.data.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieDataSourceFactory (private val apiService : TheMovieDBInterface, private val compositeDisposable: CompositeDisposable)

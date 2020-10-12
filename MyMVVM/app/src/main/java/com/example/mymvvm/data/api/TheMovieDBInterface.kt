@@ -1,7 +1,7 @@
 package com.example.mymvvm.data.api
 
-import com.example.mymvvm.data.vo.MovieDetails
-import com.example.mymvvm.data.vo.MovieResponse
+import com.example.mymvvm.data.model.MovieDetails
+import com.example.mymvvm.data.model.MovieResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
