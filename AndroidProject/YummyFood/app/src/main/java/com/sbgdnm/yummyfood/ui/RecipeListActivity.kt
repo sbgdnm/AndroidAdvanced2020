@@ -18,9 +18,8 @@ import com.sbgdnm.yummyfood.MainActivity
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.adapters.OnRecipeListener
 import com.sbgdnm.yummyfood.adapters.RecipeRecyclerAdapter
-import com.sbgdnm.yummyfood.auth.LoginActivity
 import com.sbgdnm.yummyfood.data.model.Recipe
-import com.stv.foodrecipesapp.util.AppContants
+import com.sbgdnm.yummyfood.util.AppContants
 import com.sbgdnm.yummyfood.viewmodels.RecipeListViewModel
 import kotlinx.android.synthetic.main.activity_recipe_list.*
 

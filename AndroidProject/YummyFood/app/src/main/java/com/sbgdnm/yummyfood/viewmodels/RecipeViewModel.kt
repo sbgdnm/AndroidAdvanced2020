@@ -3,7 +3,7 @@ package com.sbgdnm.yummyfood.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.sbgdnm.yummyfood.data.repository.RecipeRepository
-import com.stv.foodrecipesapp.util.Resource
+import com.sbgdnm.yummyfood.util.Resource
 import kotlinx.coroutines.Dispatchers
 
 class RecipeViewModel : ViewModel() {

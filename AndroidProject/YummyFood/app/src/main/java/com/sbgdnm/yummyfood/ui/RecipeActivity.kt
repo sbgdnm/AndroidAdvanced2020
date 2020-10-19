@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.data.model.Recipe
-import com.stv.foodrecipesapp.util.AppContants
-import com.stv.foodrecipesapp.util.Resource
+import com.sbgdnm.yummyfood.util.AppContants
+import com.sbgdnm.yummyfood.util.Resource
 import com.sbgdnm.yummyfood.viewmodels.RecipeViewModel
 import kotlin.math.roundToInt
 

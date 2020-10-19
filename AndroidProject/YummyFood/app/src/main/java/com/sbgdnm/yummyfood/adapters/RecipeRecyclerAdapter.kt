@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.sbgdnm.yummyfood.R
 
 import com.sbgdnm.yummyfood.data.model.Recipe
-import com.stv.foodrecipesapp.util.AppContants
+import com.sbgdnm.yummyfood.util.AppContants
 import kotlin.math.roundToInt
 
 class RecipeRecyclerAdapter(

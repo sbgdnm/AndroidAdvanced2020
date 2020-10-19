@@ -7,7 +7,7 @@ import com.sbgdnm.yummyfood.data.network.ApiService
 import com.sbgdnm.yummyfood.data.network.RetrofitClient
 import com.sbgdnm.yummyfood.data.network.responses.RecipeResponse
 import com.sbgdnm.yummyfood.data.network.responses.RecipeSearchResponse
-import com.stv.foodrecipesapp.util.AppContants
+import com.sbgdnm.yummyfood.util.AppContants
 import kotlin.properties.Delegates
 
 class RecipeRepository {

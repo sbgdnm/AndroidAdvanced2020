@@ -1,4 +1,4 @@
-package com.stv.foodrecipesapp.util
+package com.sbgdnm.yummyfood.util
 
 import android.content.Context
 import android.graphics.Canvas

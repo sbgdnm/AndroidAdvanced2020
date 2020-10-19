@@ -1,7 +1,7 @@
 package com.sbgdnm.yummyfood.data.network
 
 import com.google.gson.GsonBuilder
-import com.stv.foodrecipesapp.util.AppContants
+import com.sbgdnm.yummyfood.util.AppContants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

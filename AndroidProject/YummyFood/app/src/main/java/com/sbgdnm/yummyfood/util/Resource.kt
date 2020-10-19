@@ -1,4 +1,4 @@
-package com.stv.foodrecipesapp.util
+package com.sbgdnm.yummyfood.util
 
 sealed class Resource<T>(
     val data: T? = null,
