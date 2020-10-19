@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C14604</color>
+    <color name="colorPrimaryDark">#874120</color>
+    <color name="colorAccent">#C14604</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#aa000000</color>
+    <color name="backgroundColor">#E0E0E0</color>
+    <color name="btnSignUp">#C14604</color>
+    <color name="colorWhiteBlack">#A8A2A2</color>
+    <color name="colorTextColor">#767676</color>
+</resources>

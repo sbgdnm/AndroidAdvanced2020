@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">YummyFood</string>
+    <string name="search_query_hint">chicken breast</string>
+    <string name="category_name">Barbeque</string>
+    <string name="categories">Categories</string>
+    <string name="some_recipe_title">Default Recipe title</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="dont_have_account">Don\'t have account</string>
+    <string name="i_have_account">I have account</string>
+    <string name="login">Login</string>
+    <string name="sign_up">SignUp</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="favorites">Favorites</string>
+    <string name="out">Log out</string>
+    <string name="slogan">Simple recipe for delicious dishes.</string>
+</resources>

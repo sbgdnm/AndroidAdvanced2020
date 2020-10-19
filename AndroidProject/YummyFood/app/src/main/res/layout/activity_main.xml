@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="264dp"
+        android:layout_height="297dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/logo_yummy"
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:src="@drawable/logo_yummy_1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/txt_slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:gravity="center"
+            android:text="@string/slogan"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_signup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_button_bg_1"
+            android:text="@string/sign_up"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorAccent"
+            />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_sign_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/login"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:background="@drawable/my_button_bg"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorPrimaryDark"
+
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout >
