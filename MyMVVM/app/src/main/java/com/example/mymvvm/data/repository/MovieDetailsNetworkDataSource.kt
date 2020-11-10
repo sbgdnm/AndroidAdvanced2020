@@ -9,7 +9,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MovieDetailsNetworkDataSource (private val apiService : TheMovieDBInterface, private val compositeDisposable: CompositeDisposable) {
-
     private val _networkState  = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
         get() = _networkState                   //with this get, no need to implement get function to get networkSate
