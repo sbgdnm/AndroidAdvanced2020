@@ -20,9 +20,9 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.android.architecture.blueprints.todoapp.Event
 import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.TodoApplication
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
 import com.example.android.architecture.blueprints.todoapp.data.Task
-import com.example.android.architecture.blueprints.todoapp.data.source.DefaultTasksRepository
 import kotlinx.coroutines.launch
 
 /**
@@ -30,14 +30,12 @@ import kotlinx.coroutines.launch
  */
 class AddEditTaskViewModel(application: Application) : AndroidViewModel(application) {
 
-    // Note, for testing and architecture purposes, it's bad practice to construct the repository
-    // here. We'll show you how to fix this during the codelab
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+    private val tasksRepository = (application as TodoApplication).taskRepository
 
-    // Two-way databinding, exposing MutableLiveData
+
     val title = MutableLiveData<String>()
 
-    // Two-way databinding, exposing MutableLiveData
+
     val description = MutableLiveData<String>()
 
     private val _dataLoading = MutableLiveData<Boolean>()
@@ -64,12 +62,12 @@ class AddEditTaskViewModel(application: Application) : AndroidViewModel(applicat
 
         this.taskId = taskId
         if (taskId == null) {
-            // No need to populate, it's a new task
+
             isNewTask = true
             return
         }
         if (isDataLoaded) {
-            // No need to populate, already have data.
+
             return
         }
 
@@ -99,7 +97,7 @@ class AddEditTaskViewModel(application: Application) : AndroidViewModel(applicat
         _dataLoading.value = false
     }
 
-    // Called when clicking on fab.
+
     fun saveTask() {
         val currentTitle = title.value
         val currentDescription = description.value
