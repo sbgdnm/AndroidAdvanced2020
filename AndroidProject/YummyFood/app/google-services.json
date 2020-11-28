@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "963407902723",
-    "firebase_url": "https://yummyfood-233ed.firebaseio.com",
-    "project_id": "yummyfood-233ed",
-    "storage_bucket": "yummyfood-233ed.appspot.com"
+    "project_number": "867476708720",
+    "firebase_url": "https://yummyfood-17f93.firebaseio.com",
+    "project_id": "yummyfood-17f93",
+    "storage_bucket": "yummyfood-17f93.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:963407902723:android:8b6b0d020462c755d27636",
+        "mobilesdk_app_id": "1:867476708720:android:3afa3579f716ace6e683b5",
         "android_client_info": {
           "package_name": "com.sbgdnm.yummyfood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "963407902723-p316356e1mp15jos523dnejmb03kg47v.apps.googleusercontent.com",
+          "client_id": "867476708720-sdtlgfc2b2viobnn3ne66fp0pf1sa9sh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sbgdnm.yummyfood",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "963407902723-ar90479b2o4b1vh6geip0mc1hbl5q6se.apps.googleusercontent.com",
+          "client_id": "867476708720-lfhaicepbeficalct2vcunlpukjdt3lp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDw6TD933sLy-cUJ90vxleevhXItz7lht0"
+          "current_key": "AIzaSyBLdvwLoPh1Q-xr6_Bh2NcD87TP_qyW0tw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "963407902723-ar90479b2o4b1vh6geip0mc1hbl5q6se.apps.googleusercontent.com",
+              "client_id": "867476708720-lfhaicepbeficalct2vcunlpukjdt3lp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

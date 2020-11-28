@@ -1,17 +1,36 @@
 <resources>
     <string name="app_name">YummyFood</string>
-    <string name="search_query_hint">chicken breast</string>
-    <string name="category_name">Barbeque</string>
-    <string name="categories">Categories</string>
-    <string name="some_recipe_title">Default Recipe title</string>
-    <string name="ingredients">Ingredients</string>
-    <string name="dont_have_account">Don\'t have account</string>
-    <string name="i_have_account">I have account</string>
-    <string name="login">Login</string>
-    <string name="sign_up">SignUp</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="favorites">Favorites</string>
-    <string name="out">Log out</string>
-    <string name="slogan">Simple recipe for delicious dishes.</string>
+
+    //login and register
+    <string name="content_description">image</string>
+    <string name="title_login">АВТОРИЗАЦИЯ</string>
+    <string name="et_hint_email_id">Email</string>
+    <string name="et_hint_password">Пароль</string>
+    <string name="lbl_forgot_password">Забыли пароль?</string>
+    <string name="btn_lbl_login">Войти</string>
+    <string name="don_t_have_an_account">Нету аккаунта?</string>
+    <string name="register"><u>Регистрация</u></string>
+
+    <string name="create_an_account">Создание Аккаунта</string>
+
+    <string name="hint_last_name">Фамилия</string>
+    <string name="hint_first_name">Имя</string>
+    <string name="et_hint_confirm_password">Потвердите пароль</string>
+
+    <string name="i_agree_to_the_terms_and_condition">Я согласен с <u> Условиями &amp; Правилами </u></string>
+    <string name="btn_lbl_register">Регистарция</string>
+
+    <string name="already_have_an_account">У вас уже есть аккаунт?</string>
+    <string name="login"><u>Войти</u></string>
+
+    //error
+    <string name="err_msg_enter_first_name">Пожалуйста, введите имя!</string>
+    <string name="err_msg_enter_last_name">Пожалуйста, введите Фамилию!</string>
+    <string name="err_msg_enter_email">Пожалуйста, введите почту!</string>
+    <string name="err_msg_enter_password">Пожалуйста, введите пароль!</string>
+    <string name="err_msg_enter_confirm_password">Пожалуйста, подтвердите свой пароль!</string>
+    <string name="err_msg_password_and_confirm_password_mismatch">Пароли не совпадают!</string>
+    <string name="err_msg_agree_terms_and_condition">Вы не согласились с правилами YummyFood!</string>
+
+    //
 </resources>

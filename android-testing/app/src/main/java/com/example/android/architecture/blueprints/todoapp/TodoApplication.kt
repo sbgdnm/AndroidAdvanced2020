@@ -3,6 +3,7 @@
 package com.example.android.architecture.blueprints.todoapp
 
 import android.app.Application
+import androidx.databinding.library.BuildConfig
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository
 import timber.log.Timber
 import timber.log.Timber.DebugTree
