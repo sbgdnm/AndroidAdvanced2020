@@ -90,6 +90,8 @@ class RegisterActivity : BaseActivity() {
     private fun registerUser() {
         //Сперва идет проверка целостности аккаунта , если validate true то все окей, создаем аккаунт
         if (validateRegisterDetails()) {
+            //Показываем загрузку с текстом из values/string
+            showProgressDialog(resources.getString(R.string.please_wait))
 
             val email: String = et_email.text.toString().trim { it <= ' ' }
             val password: String = et_password.text.toString().trim { it <= ' ' }
@@ -98,7 +100,7 @@ class RegisterActivity : BaseActivity() {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(
                     OnCompleteListener<AuthResult> { task ->
-
+                        hideProgressDialog() //зыкрываем progress dialog
                         // Если регистрация прошла успешно
                         if (task.isSuccessful) {
 
