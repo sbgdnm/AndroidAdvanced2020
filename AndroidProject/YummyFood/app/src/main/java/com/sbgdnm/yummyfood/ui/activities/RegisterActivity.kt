@@ -24,9 +24,8 @@ class RegisterActivity : BaseActivity() {
         )
 
         tv_login.setOnClickListener {
-            //при нажатии переход на регистарцию
-            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-            startActivity(intent)
+            //при нажатии переход на логин активити т.е. назад
+            onBackPressed()
         }
 
         setupActionBar()
@@ -111,6 +110,11 @@ class RegisterActivity : BaseActivity() {
                                 "Вы успешно зарегистрировались!. Ваш user id ${firebaseUser.uid}",
                                 false
                             )
+                            //Так как после регистрации , пользователь сразу заходит в firebase
+                            //мы просто выходим из firebase и отправляем его на login screen чтоб он самостоятельно вашел
+                            FirebaseAuth.getInstance().signOut()
+                            finish()
+
                         } else {
                             //Если регистрация не прошла успешно, то появится сообщение об ошибке.
                             showErrorSnackBar(task.exception!!.message.toString(), true)
