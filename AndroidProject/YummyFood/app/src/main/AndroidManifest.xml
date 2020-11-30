@@ -23,14 +23,14 @@
             android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activities.auth.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activities.RegisterActivity"
+            android:name=".ui.activities.auth.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activities.ForgotPasswordActivity"
+        <activity android:name=".ui.activities.auth.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>

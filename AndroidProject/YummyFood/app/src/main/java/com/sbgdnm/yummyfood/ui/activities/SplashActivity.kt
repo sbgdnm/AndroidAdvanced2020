@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.sbgdnm.yummyfood.R
+import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 @Suppress("DEPRECATION")

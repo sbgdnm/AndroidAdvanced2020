@@ -37,6 +37,7 @@
 
     //Забыли пароль
     <string name="title_forgot_password">ЗАБЫЛИ ПАРОЛЬ?</string>
-    <string name="forgot_password_title_description">Enter your username and e-mail address we\'ll send you a email to reset your password</string>
+    <string name="forgot_password_title_description">Пожалуйста , введите свой email для того чтоб мы отправили вам ссылку для восстановления пароль. Спасибо что с YummyFood!</string>
     <string name="btn_lbl_submit">Восстановить</string>
+    <string name="email_sent_success">\"На вашу почту отпарвлена ссылка для восстановления пароля!\"</string>
 </resources>
