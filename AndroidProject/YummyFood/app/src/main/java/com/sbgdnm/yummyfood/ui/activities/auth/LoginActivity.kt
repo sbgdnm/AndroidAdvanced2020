@@ -3,11 +3,15 @@ package com.sbgdnm.yummyfood.ui.activities.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
 import com.sbgdnm.yummyfood.R
+import com.sbgdnm.yummyfood.firestore.FirestoreClass
+import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.BaseActivity
+import com.sbgdnm.yummyfood.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Suppress("DEPRECATION")
@@ -84,17 +88,30 @@ class LoginActivity : BaseActivity() , View.OnClickListener{
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
 
-                    //закрываем progress dialog
-                    hideProgressDialog()
-
                     if (task.isSuccessful) {
-
-                        showErrorSnackBar("Вы успешно авторизовались!", false)
+                        FirestoreClass().getUserDetails(this@LoginActivity)
                     } else {
+                        //закрываем progress dialog
+                        hideProgressDialog()
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
                 }
         }
+    }
+        //Функция для уведомления Пользователя об успешном входе в систему и получения сведений о пользователе из базы данных FireStore после аутентификации.
+    fun userLoggedInSuccess(user: User) {
+
+        // закрываем progress dialog
+        hideProgressDialog()
+
+        //Распечатайте сведения о пользователе в журнале на данный момент.
+        Log.i("First Name: ", user.firstName)
+        Log.i("Last Name: ", user.lastName)
+        Log.i("Email: ", user.email)
+
+        // Перенаправьте пользователя на главный экран после входа в систему.
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
 }

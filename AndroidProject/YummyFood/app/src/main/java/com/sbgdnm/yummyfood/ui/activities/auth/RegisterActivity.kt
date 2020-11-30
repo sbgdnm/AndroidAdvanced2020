@@ -3,11 +3,14 @@ package com.sbgdnm.yummyfood.ui.activities.auth
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowManager
+import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.sbgdnm.yummyfood.R
+import com.sbgdnm.yummyfood.firestore.FirestoreClass
+import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.BaseActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -86,6 +89,7 @@ class RegisterActivity : BaseActivity() {
             }
         }
     }
+        //Функция регистрации Пользователя с помощью электронной почты и пароля с помощью FirebaseAuth.
     private fun registerUser() {
         //Сперва идет проверка целостности аккаунта , если validate true то все окей, создаем аккаунт
         if (validateRegisterDetails()) {
@@ -99,27 +103,42 @@ class RegisterActivity : BaseActivity() {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(
                     OnCompleteListener<AuthResult> { task ->
-                        hideProgressDialog() //зыкрываем progress dialog
                         // Если регистрация прошла успешно
                         if (task.isSuccessful) {
 
                             // Firebase регистрирует юзера
                             val firebaseUser: FirebaseUser = task.result!!.user!!
-
-                            showErrorSnackBar(
-                                "Вы успешно зарегистрировались!. Ваш user id ${firebaseUser.uid}",
-                                false
+                            val user = User(
+                                firebaseUser.uid,
+                                et_first_name.text.toString().trim { it <= ' ' },
+                                et_last_name.text.toString().trim { it <= ' ' },
+                                et_email.text.toString().trim { it <= ' ' }
                             )
-                            //Так как после регистрации , пользователь сразу заходит в firebase
-                            //мы просто выходим из firebase и отправляем его на login screen чтоб он самостоятельно вашел
-                            FirebaseAuth.getInstance().signOut()
-                            finish()
+                            // передаем данные юзера , чтобы там записали в коллекцию юзеров в firestore
+                            FirestoreClass().registerUser(this@RegisterActivity, user)
 
                         } else {
+                            //зыкрываем progress dialog
+                            hideProgressDialog()
                             //Если регистрация не прошла успешно, то появится сообщение об ошибке.
                             showErrorSnackBar(task.exception!!.message.toString(), true)
                         }
                     })
         }
+    }
+        //Функция для уведомления об успешном результате записи Firestore, когда пользователь успешно зарегистрирован.
+    fun userRegistrationSuccess() {
+        //зыкрываем progress dialog
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@RegisterActivity,
+            resources.getString(R.string.register_success),
+            Toast.LENGTH_SHORT
+        ).show()
+        //Так как после регистрации , пользователь сразу заходит в firebase
+        //мы просто выходим из firebase и отправляем его на login screen чтоб он самостоятельно вашел
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 }
