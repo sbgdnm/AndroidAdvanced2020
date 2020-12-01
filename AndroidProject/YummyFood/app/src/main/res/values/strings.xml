@@ -41,4 +41,11 @@
     <string name="forgot_password_title_description">Пожалуйста , введите свой email для того чтоб мы отправили вам ссылку для восстановления пароль. Спасибо что с YummyFood!</string>
     <string name="btn_lbl_submit">Восстановить</string>
     <string name="email_sent_success">\"На вашу почту отпарвлена ссылка для восстановления пароля!\"</string>
+
+    //Профайл юзер
+    <string name="title_complete_profile">МОЙ ПРОФИЛЬ</string>
+    <string name="et_hint_mobile_number">Телефон</string>
+    <string name="rb_lbl_male">М</string>
+    <string name="rb_lbl_female">Ж</string>
+    <string name="btn_lbl_save">Сохранить</string>
 </resources>

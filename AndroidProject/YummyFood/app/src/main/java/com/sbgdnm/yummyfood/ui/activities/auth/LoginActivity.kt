@@ -12,6 +12,7 @@ import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.BaseActivity
 import com.sbgdnm.yummyfood.ui.activities.MainActivity
+import com.sbgdnm.yummyfood.ui.activities.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Suppress("DEPRECATION")
@@ -109,9 +110,16 @@ class LoginActivity : BaseActivity() , View.OnClickListener{
         Log.i("Last Name: ", user.lastName)
         Log.i("Email: ", user.email)
 
-        // Перенаправьте пользователя на главный экран после входа в систему.
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-        finish()
+            if (user.profileCompleted == 0) {
+                // если правильно залогинились и пользователь зашел впервые то открываем ему  профиль пользователя чтобы он настроил его
+                val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+                startActivity(intent)
+            } else {
+                //если пользователь еже заходил и натстроил свой профиль то просто перенаравляем пользователя на главный экран после входа в систему.
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            }
+            finish()
+
     }
 
 }

@@ -1,6 +1,8 @@
 package com.sbgdnm.yummyfood.firestore
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -60,6 +62,20 @@ class FirestoreClass {
 
                 // Здесь мы получили снимок документа, который преобразуется в объект модели пользовательских данных.
                 val user = document.toObject(User::class.java)!!
+                    //Создайте экземпляр Android SharedPreferences.
+                val sharedPreferences =
+                    activity.getSharedPreferences(
+                        Constants.MY_YF_PREFERENCES,
+                        Context.MODE_PRIVATE
+                    )
+
+                // создаем editor который поможет нам отредактировать SharedPreference.
+                val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                editor.putString(
+                    Constants.LOGGED_IN_USERNAME,       //key
+                    "${user.firstName} ${user.lastName}" //value
+                )
+                editor.apply()
 
                 when (activity) {
                     is LoginActivity -> {

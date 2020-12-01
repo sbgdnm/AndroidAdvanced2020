@@ -1,4 +1,4 @@
-package com.myshoppal.utils
+package com.sbgdnm.yummyfood.utils
 
 import android.content.Context
 import android.graphics.Typeface
