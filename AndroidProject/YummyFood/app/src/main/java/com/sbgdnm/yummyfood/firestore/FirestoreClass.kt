@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.sbgdnm.yummyfood.models.User
+import com.sbgdnm.yummyfood.ui.activities.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
 import com.sbgdnm.yummyfood.utils.Constants
@@ -35,6 +36,7 @@ class FirestoreClass {
                 )
             }
     }
+
         //Функция для получения идентификатора пользователя текущего зарегистрированного пользователя.
     fun getCurrentUserID(): String {
         // инициализируем Экземпляр currentUser, использующий FirebaseAuth
@@ -48,6 +50,7 @@ class FirestoreClass {
 
         return currentUserID
     }
+
         //Функция для получения зарегистрированных сведений о пользователе из базы данных FireStore.
     fun getUserDetails(activity: Activity) {
 
@@ -96,6 +99,43 @@ class FirestoreClass {
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while getting user details.",
+                    e
+                )
+            }
+    }
+
+     //Функция обновления данных профиля пользователя в базе данных.
+     // @param activity используется для идентификации activity которому передается результат.
+     // @param userHashMap HashMap полей, которые должны быть обновлены.
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
+        // имя коллекции
+        mFireStore.collection(Constants.USERS)
+            // Идентификатор документа, по которому будут обновляться данные. Здесь идентификатор документа -
+            // это текущий идентификатор вошедшего в систему пользователя.
+            .document(getCurrentUserID())
+            // A HashMap полей, которые должны быть обновлены.
+            .update(userHashMap)
+            .addOnSuccessListener {
+
+                //Сообщите об успешном результате.
+                when (activity) {
+                    is UserProfileActivity -> {
+                        // Вызоваем функцию base activity для передачи ей результата.
+                        activity.userProfileUpdateSuccess()
+                    }
+                }
+
+            }
+            .addOnFailureListener { e ->
+                when (activity) {
+                    is UserProfileActivity -> {
+                        // Скрываем диалоговое окно загрузки, если есть какая-либо ошибка. И показываем ошибку в журнале.
+                        activity.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Ошибка при обновлении сведений о пользователе.",
                     e
                 )
             }
