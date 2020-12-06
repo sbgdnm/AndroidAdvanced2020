@@ -48,4 +48,9 @@
     <string name="rb_lbl_male">М</string>
     <string name="rb_lbl_female">Ж</string>
     <string name="btn_lbl_save">Сохранить</string>
+
+    //Если разрешение на доступ к хранилищию нету выводит ошибку
+    <string name="read_storage_permission_denied">Упс.. , вы только что отказали в разрешении к достопу в хранилище. Но вы также можете разрешить его в настройках вашего телефона .</string>
+    //ошибка когда не удалость выбрать изображение с телефона для профиля
+    <string name="image_selection_failed">Выбор изображения не удался!</string>
 </resources>
