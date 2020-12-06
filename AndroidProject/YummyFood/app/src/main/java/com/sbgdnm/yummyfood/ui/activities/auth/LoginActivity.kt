@@ -3,7 +3,6 @@ package com.sbgdnm.yummyfood.ui.activities.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
@@ -11,8 +10,8 @@ import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.BaseActivity
+import com.sbgdnm.yummyfood.ui.activities.DashboardActivity
 import com.sbgdnm.yummyfood.ui.activities.MainActivity
-import com.sbgdnm.yummyfood.ui.activities.UserProfileActivity
 import com.sbgdnm.yummyfood.utils.Constants
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -105,12 +104,6 @@ class LoginActivity : BaseActivity() , View.OnClickListener{
 
         // закрываем progress dialog
         hideProgressDialog()
-
-        //Распечатайте сведения о пользователе в журнале на данный момент.
-        Log.i("First Name: ", user.firstName)
-        Log.i("Last Name: ", user.lastName)
-        Log.i("Email: ", user.email)
-
             if (user.profileCompleted == 0) {
                 // если правильно залогинились и пользователь зашел впервые то открываем ему  профиль пользователя чтобы он настроил его
                 val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
@@ -118,7 +111,7 @@ class LoginActivity : BaseActivity() , View.OnClickListener{
                 startActivity(intent)
             } else {
                 //если пользователь еже заходил и натстроил свой профиль то просто перенаравляем пользователя на главный экран после входа в систему.
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
             }
             finish()
 

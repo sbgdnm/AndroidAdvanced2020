@@ -3,12 +3,15 @@ package com.sbgdnm.yummyfood.firestore
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.sbgdnm.yummyfood.models.User
-import com.sbgdnm.yummyfood.ui.activities.UserProfileActivity
+import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
 import com.sbgdnm.yummyfood.utils.Constants
@@ -104,7 +107,7 @@ class FirestoreClass {
             }
     }
 
-     //Функция обновления данных профиля пользователя в базе данных.
+    //Функция обновления данных профиля пользователя в базе данных.
      // @param activity используется для идентификации activity которому передается результат.
      // @param userHashMap HashMap полей, которые должны быть обновлены.
     fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
@@ -137,6 +140,55 @@ class FirestoreClass {
                     activity.javaClass.simpleName,
                     "Ошибка при обновлении сведений о пользователе.",
                     e
+                )
+            }
+    }
+
+    // Функция загрузки изображения в облачное хранилище.
+    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+
+        //получение ссылки на хранилище
+        val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+                    + Constants.getFileExtension(
+                activity,
+                imageFileURI
+            )
+        )
+
+        //добавление файла в ссылку
+        sRef.putFile(imageFileURI!!)
+            .addOnSuccessListener { taskSnapshot ->
+                //Загрузка изображения прошла успешно
+                Log.e(
+                    "Firebase Image URL",
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
+                )
+                // Получите загружаемый url-адрес из моментального снимка задачи
+                taskSnapshot.metadata!!.reference!!.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        Log.e("URL загружаемого изображения", uri.toString())
+
+                        // Здесь вызывается функция базовой активности для передачи ей результата.
+                        when (activity) {
+                            is UserProfileActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
+                        }
+                    }
+            }
+            .addOnFailureListener { exception ->
+                // Закрываем диалоговое окно прогресса т.е. загрузки, если есть какая-либо ошибка. То показываем ошибку в журнале.
+                when (activity) {
+                    is UserProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    exception.message,
+                    exception
                 )
             }
     }

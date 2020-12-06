@@ -2,7 +2,9 @@ package com.sbgdnm.yummyfood.utils
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 
 object Constants {
 
@@ -26,6 +28,19 @@ object Constants {
     //Уникальный код выбора изображения из памяти телефона.
     const val PICK_IMAGE_REQUEST_CODE = 2
 
+    // Постоянные переменные для "Пола"
+    const val MALE: String = "Male"
+    const val FEMALE: String = "Female"
+
+    // Firebase database имена полей базы данных
+    const val MOBILE: String = "mobile"
+    const val GENDER: String = "gender"
+    //профиль фото
+    const val USER_PROFILE_IMAGE:String = "User_Profile_Image"
+    const val IMAGE: String = "image"
+    //константа ждя того чтобы проверить первый ли раз зашел на аккаунт пользоваетель
+    const val COMPLETE_PROFILE: String = "profileCompleted"
+
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)
     fun showImageChooser(activity: Activity) {
         // для запуска выбора изображения в памяти телефона.(базовый интент)
@@ -37,12 +52,18 @@ object Constants {
         activity.startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
     }
 
-
-    // Постоянные переменные для "Пола"
-    const val MALE: String = "Male"
-    const val FEMALE: String = "Female"
-
-    // Firebase database имена полей базы данных
-    const val MOBILE: String = "mobile"
-    const val GENDER: String = "gender"
+    //Функция для получения расширения файла изображения выбранного изображения.
+    fun getFileExtension(activity: Activity, uri: Uri?): String? {
+        /*
+         * MimeTypeMap: Двусторонняя карта, которая сопоставляет MIME-типы с расширениями файлов и наоборот.
+         *
+         * getSingleton():Получите одноэлементный экземпляр MimeTypeMap.
+         *
+         * getExtensionFromMimeType: Возвращает зарегистрированное расширение для данного типа MIME.
+         *
+         * contentResolver.getType: Возвращает тип MIME данного URL-адреса .
+         */
+        return MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(activity.contentResolver.getType(uri!!))
+    }
 }

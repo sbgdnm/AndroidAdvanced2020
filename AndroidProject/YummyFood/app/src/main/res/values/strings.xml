@@ -57,4 +57,8 @@
     <string name="err_msg_enter_mobile_number">Пожалуйста , введите номер телефона!.</string>
     //сообщение об успешном обновлении данных в профиле
     <string name="msg_profile_update_success">Ваши данные успешно обновлены!</string>
+    <string name="title_activity_dashboard">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

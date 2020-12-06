@@ -1,9 +1,10 @@
-package com.sbgdnm.yummyfood.ui.activities
+package com.sbgdnm.yummyfood.ui.activities.auth
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -14,6 +15,8 @@ import androidx.core.content.ContextCompat
 import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.models.User
+import com.sbgdnm.yummyfood.ui.activities.BaseActivity
+import com.sbgdnm.yummyfood.ui.activities.MainActivity
 import com.sbgdnm.yummyfood.utils.Constants
 import com.sbgdnm.yummyfood.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_user_profile.*
@@ -22,6 +25,11 @@ import java.io.IOException
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
     //Экземпляр класса модели пользовательских данных. Мы инициализируем его позже.
     private lateinit var mUserDetails: User
+
+    // глобальную переменную для URI выбранного изображения из памяти телефона.
+    private var mSelectedImageFileUri: Uri? = null
+    //глобальная переменная для URL-адреса загружемого изображения.
+    private var mUserProfileImageURL: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,37 +93,19 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_submit ->{
-                    //если validateUserProfileDetails() все окей , то ..
-                    if(validateUserProfileDetails()){
-
-                        //Создаем HashMap пользовательских данных для обновления в базе данных и добавляем значения init.
-                        val userHashMap = HashMap<String, Any>()
-
-                        // Здесь поле, которое не редактируется, не нуждается в обновлении. Итак, сейчас мы обновим номер мобильного телефона пользователя и его пол.
-
-                        //Здесь мы получаем текст из editText и обрезаем пространство
-                        val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
-
-                        val gender = if (rb_male.isChecked) {
-                            Constants.MALE
-                        } else {
-                            Constants.FEMALE
-                        }
-
-                        if (mobileNumber.isNotEmpty()) {
-                            userHashMap[Constants.MOBILE] = mobileNumber.toLong()
-                        }
-                        //хэш мап принимает ключь gender и value male or female
-                        userHashMap[Constants.GENDER] = gender
-
-                        // показываем Загрузка
+                    if (validateUserProfileDetails()) {
+                        //Сделайте его общим для обоих случаев.
+                        // загрузка
                         showProgressDialog(resources.getString(R.string.please_wait))
-
-                        // вызоваем функцию registerUser класса FireStore, чтобы сделать запись в базе данных.
-                        FirestoreClass().updateUserProfileData(
-                            this@UserProfileActivity,
-                            userHashMap)
-                        //showErrorSnackBar("Ваши данные действительны. Вы можете обновить их.",false)
+                        if (mSelectedImageFileUri != null) {
+                            FirestoreClass().uploadImageToCloudStorage(
+                                this@UserProfileActivity,
+                                mSelectedImageFileUri
+                            )
+                        } else {
+                            // Вызовите функцию сведений об обновлении пользователя.
+                            updateUserProfileDetails()
+                        }
                     }
                 }
             }
@@ -124,7 +114,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     // Override функция для идентификации результата разрешения среды выполнения после того,
     // как пользователь разрешает или запрещает разрешение на основе уникального кода.
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -160,10 +149,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 if (data != null) {
                     try {
                         // Uri выбранного изображения из памяти телефона.
-                        val selectedImageFileUri = data.data!!
+                        mSelectedImageFileUri = data.data!!
                         //Передаем нужные параметры glide функцию для установления фото , glide функция работает более быстро и оптемизирует фотографию , тип ну , если большая фотография то норм ставится
                         GlideLoader(this@UserProfileActivity).loadUserPicture(
-                            selectedImageFileUri,
+                            mSelectedImageFileUri!!,
                             iv_user_photo
                         )
                     } catch (e: IOException) {
@@ -187,11 +176,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     // Функция проверки входных данных для получения сведений о профиле.
     private fun validateUserProfileDetails(): Boolean {
         return when {
-
             // Мы сохранили изображение профиля пользователя необязательным.
             // Имя, Фамилия и идентификатор электронной почты не редактируются, когда они приходят с экрана входа в систему.
             // Переключатель для пола всегда имеет выбранное по умолчанию значение.
-
             // Проверяем, не пуст ли номер мобильного телефона, так как он обязательно должен быть введен.
             TextUtils.isEmpty(et_mobile_number.text.toString().trim { it <= ' ' }) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_mobile_number), true)
@@ -203,6 +190,39 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    // Функция обновления сведений о профиле пользователя в firestore.
+    private fun updateUserProfileDetails() {
+
+        val userHashMap = HashMap<String, Any>()
+
+        // Здесь поле, которое не редактируется, не нуждается в обновлении. Итак, сейчас мы обновим номер мобильного телефона пользователя и его пол.
+
+        // Здесь мы получаем текст из editText и обрезаем пространство
+        val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
+        val gender = if (rb_male.isChecked) {
+            Constants.MALE
+        } else {
+            Constants.FEMALE
+        }
+
+        //Теперь обновите поле изображение профиля, если URL-адрес изображения не пуст.
+        if (mUserProfileImageURL.isNotEmpty()) {
+            userHashMap[Constants.IMAGE] = mUserProfileImageURL
+        }
+
+        if (mobileNumber.isNotEmpty()) {
+            userHashMap[Constants.MOBILE] = mobileNumber.toLong()
+        }
+        userHashMap[Constants.GENDER] = gender
+        // 0: профиль пользователя не подтвержден
+        // 1: профиль пользователя  подтвержден
+        userHashMap[Constants.COMPLETE_PROFILE] = 1
+        //вызовите функцию updateUserProfileData класса FireStore, чтобы сделать запись в базе данных.
+        FirestoreClass().updateUserProfileData(
+            this@UserProfileActivity,
+            userHashMap
+        )
+    }
     //Функция для уведомления об успешном результате и дальнейшего выполнения соответствующих действий после обновления сведений о пользователе.
     fun userProfileUpdateSuccess() {
         //Закрываем загрузку
@@ -217,6 +237,15 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         // Перенаправление на главный экран после завершения профиля.
         startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
         finish()
+    }
+
+    //Функция уведомления об успешном результате загрузки изображения в облачное хранилище.
+    //@param imageURL После успешной загрузки Firebase Cloud возвращает URL-адрес.
+    fun imageUploadSuccess(imageURL: String) {
+
+        mUserProfileImageURL = imageURL
+        //Вызоваем функцию сведений об обновлении пользователя.
+        updateUserProfileDetails()
     }
 
 }
