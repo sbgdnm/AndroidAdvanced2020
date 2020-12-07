@@ -59,13 +59,19 @@
     <string name="msg_profile_update_success">Ваши данные успешно обновлены!</string>
 
 
-<!--    <string name="title_activity_dashboard">MainActivity</string>-->
+    <!--    <string name="title_activity_dashboard">MainActivity</string>-->
     <string name="title_my_products">Мои рецепты</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Заказы</string>
     <string name="title_recipe">Рецепты</string>
 
     <string name="please_click_back_again_to_exit">Пожалуйста, нажмите еще раз чтобы выйти.</string>
-
+    //settins
+    <string name="action_settings">Настройки</string>
+    <string name="title_settings">Настройки</string>
+    <string name="lbl_edit">Изменить</string>
+    <string name="lbl_addresses">Адрес</string>
+    <string name="btn_lbl_logout">Выйти</string>
+    <string name="title_edit_profile">Настроить профайл.</string>
 
 </resources>

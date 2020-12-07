@@ -16,10 +16,13 @@ import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.BaseActivity
+import com.sbgdnm.yummyfood.ui.activities.DashboardActivity
 import com.sbgdnm.yummyfood.ui.activities.MainActivity
 import com.sbgdnm.yummyfood.utils.Constants
 import com.sbgdnm.yummyfood.utils.GlideLoader
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
+import kotlinx.android.synthetic.main.activity_user_profile.iv_user_photo
 import java.io.IOException
 
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
@@ -54,11 +57,15 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         et_email.isEnabled = false
         et_email.setText(mUserDetails.email)
 
+        GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
+
         // Назначьте событие on click фотографии профиля пользователя.
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
 
         // Назначим  событие нажатия на кнопку "Сохранить".
         btn_submit.setOnClickListener(this@UserProfileActivity)
+
+        setupActionBar()
     }
     //Override the onClick функция для события добавленее фотографии
     override fun onClick(v: View?) {
@@ -235,7 +242,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         ).show()
 
         // Перенаправление на главный экран после завершения профиля.
-        startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
+        startActivity(Intent(this@UserProfileActivity, DashboardActivity::class.java))
         finish()
     }
 
@@ -246,6 +253,21 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         mUserProfileImageURL = imageURL
         //Вызоваем функцию сведений об обновлении пользователя.
         updateUserProfileDetails()
+    }
+    /**
+     * A function for actionBar Setup.
+     */
+    private fun setupActionBar() {
+
+        setSupportActionBar(toolbar_user_profile_activity)
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
+        }
+
+        toolbar_user_profile_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
 }

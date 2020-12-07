@@ -11,6 +11,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.sbgdnm.yummyfood.models.User
+import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
@@ -88,6 +89,14 @@ class FirestoreClass {
                         // Вызовите функцию базового действия для передачи ей результата.
                         activity.userLoggedInSuccess(user)
                     }
+                    // Make the changes to send the success result to respective activity.
+                    is SettingsActivity ->{
+                        // Call the function of base class.
+                        // Call a function of base activity for transferring the result to it.
+                        activity.userDetailsSuccess(user)
+
+                    }
+
                 }
 
             }
@@ -95,6 +104,10 @@ class FirestoreClass {
                 // Закрываем progress dialog и если есть ошибка то выводим ошибку
                 when (activity) {
                     is LoginActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    // Hide the progress dialog if there is any error for the respective error.
+                    is SettingsActivity -> {
                         activity.hideProgressDialog()
                     }
                 }

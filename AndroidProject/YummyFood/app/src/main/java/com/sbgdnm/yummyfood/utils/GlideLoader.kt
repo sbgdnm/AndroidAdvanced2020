@@ -11,12 +11,12 @@ import java.io.IOException
 class GlideLoader(val context: Context) {
 
     //функция для загрузки изображения из URI для изображения профиля пользователя.
-    fun loadUserPicture(imageURI: Uri, imageView: ImageView) {
+    fun loadUserPicture(image: Any, imageView: ImageView) {
         try {
             // Загрузите изображение пользователя в ImageView.
             Glide
                 .with(context)
-                .load(imageURI) // URI изображения
+                .load(image) // URI изображения
                 .centerCrop() // Масштабный тип изображения.
                 .placeholder(R.drawable.ic_user_placeholder) //  по умолчанию осстается изображение, если изображение не удалось загрузить.
                 .into(imageView) // вид, в котором будет загружено изображение.

@@ -41,6 +41,10 @@ object Constants {
     //константа ждя того чтобы проверить первый ли раз зашел на аккаунт пользоваетель
     const val COMPLETE_PROFILE: String = "profileCompleted"
 
+
+    const val FIRST_NAME: String = "firstName"
+    const val LAST_NAME: String = "lastName"
+
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)
     fun showImageChooser(activity: Activity) {
         // для запуска выбора изображения в памяти телефона.(базовый интент)
