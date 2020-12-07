@@ -83,4 +83,10 @@
     <string name="et_hint_product_ingredients">Ингредиенты</string>
     <string name="btn_my_product_submit">Опубликовать</string>
 
+    //Проверка целостности моего рецепта при добавлении
+    <string name="err_msg_select_product_image">Пожалуйста, добавьте фото.</string>
+    <string name="err_msg_enter_product_title">Пожалуйста, напишите названии рецепта которого хотите добавить.</string>
+    <string name="err_msg_enter_product_price">Пожалуйста, напишите примерную цену продуктов для этого рецепта</string>
+    <string name="err_msg_enter_product_description">Пожалуйста, напишите описание (по шагово что надо сделать для приготовления)</string>
+    <string name="err_msg_enter_product_ingredients">Пожалуйста, напишите ингредиентся вашего рецепта.</string>
 </resources>

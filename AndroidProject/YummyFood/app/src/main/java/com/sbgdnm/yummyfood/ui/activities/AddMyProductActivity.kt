@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -30,6 +31,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
         setupActionBar()
 
         iv_add_update_product.setOnClickListener(this)
+        btn_submit.setOnClickListener(this)
     }
 
     private fun setupActionBar() {
@@ -66,6 +68,14 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
                         )
                     }
                 }
+
+                R.id.btn_submit -> {
+                    if (validateProductDetails()) {
+                        showErrorSnackBar("Ваш рецепт успешно опубликован" , false)
+                       // uploadProductImage()
+                    }
+                }
+
             }
         }
     }
@@ -113,12 +123,12 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
                 )
             )
             // The uri of selection image from phone storage.
-            val SelectedImageFileUri = data.data!!
+            mSelectedImageFileUri = data.data!!
 
             try {
                 // Load the product image in the ImageView.
                 GlideLoader(this@AddMyProductActivity).loadUserPicture(
-                    SelectedImageFileUri!!,
+                    mSelectedImageFileUri!!,
                     iv_product_image
                 )
             } catch (e: IOException) {
@@ -126,4 +136,47 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             }
         }
     }
+
+    /**
+     * A function to validate the product details.
+     */
+    private fun validateProductDetails(): Boolean {
+        return when {
+
+            mSelectedImageFileUri == null -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_select_product_image), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_title.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_title), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_price.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_price), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_description.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_description),
+                    true
+                )
+                false
+            }
+
+            TextUtils.isEmpty(et_product_ingredients.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_ingredients),
+                    true
+                )
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
 }
