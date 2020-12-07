@@ -38,7 +38,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
 
-
         //Ивзлекаем данные пользователя
         if(intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
             // Получием сведения о пользователе из intent в виде ParcelableExtra.
@@ -46,18 +45,40 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         }
 
 
-        //После получения реквизитов пользователей показываем данные на интерфейсе
-        // Здесь некоторые компоненты edittext отключены, поскольку они добавляются во время регистрации.
-        et_first_name.isEnabled = false     //их нельзя менять так как они являются статичными , мы их вводим при регистрации
-        et_first_name.setText(mUserDetails.firstName)
+        if(mUserDetails.profileCompleted==0){//когдя впервые заходит в приложение в акк
+            tv_title_profile.text = resources.getString(R.string.title_complete_profile)
+            //После получения реквизитов пользователей показываем данные на интерфейсе
+            // Здесь некоторые компоненты edittext отключены, поскольку они добавляются во время регистрации.
+            et_first_name.isEnabled = false     //их нельзя менять так как они являются статичными , мы их вводим при регистрации
+            et_first_name.setText(mUserDetails.firstName)
+            et_last_name.isEnabled = false
+            et_last_name.setText(mUserDetails.lastName)
+            et_email.isEnabled = false
+            et_email.setText(mUserDetails.email)
 
-        et_last_name.isEnabled = false
-        et_last_name.setText(mUserDetails.lastName)
+        }else{  //когда заходим в провиль через настрйоки
+            setupActionBar() //пояляется стрелка назад в настройки
+            tv_title_profile.text = resources.getString(R.string.title_edit_profile)
+            //загрузка фото профиля через глайд , из датабазы
+            GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
 
-        et_email.isEnabled = false
-        et_email.setText(mUserDetails.email)
+            et_first_name.setText(mUserDetails.firstName)
+            et_last_name.setText(mUserDetails.lastName)
 
-        GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
+            et_email.isEnabled = false
+            et_email.setText(mUserDetails.email)
+
+            if (mUserDetails.mobile != 0L) {
+                et_mobile_number.setText(mUserDetails.mobile.toString())
+            }
+            if (mUserDetails.gender == Constants.MALE) {
+                rb_male.isChecked = true
+            } else {
+                rb_female.isChecked = true
+            }
+
+        }
+
 
         // Назначьте событие on click фотографии профиля пользователя.
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
@@ -65,7 +86,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         // Назначим  событие нажатия на кнопку "Сохранить".
         btn_submit.setOnClickListener(this@UserProfileActivity)
 
-        setupActionBar()
     }
     //Override the onClick функция для события добавленее фотографии
     override fun onClick(v: View?) {
@@ -202,8 +222,17 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         val userHashMap = HashMap<String, Any>()
 
-        // Здесь поле, которое не редактируется, не нуждается в обновлении. Итак, сейчас мы обновим номер мобильного телефона пользователя и его пол.
 
+        // Get the FirstName from editText and trim the space
+        val firstName = et_first_name.text.toString().trim { it <= ' ' }
+        if (firstName != mUserDetails.firstName) {
+            userHashMap[Constants.FIRST_NAME] = firstName
+        }
+        // Get the LastName from editText and trim the space
+        val lastName = et_last_name.text.toString().trim { it <= ' ' }
+        if (lastName != mUserDetails.lastName) {
+            userHashMap[Constants.LAST_NAME] = lastName
+        }
         // Здесь мы получаем текст из editText и обрезаем пространство
         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
         val gender = if (rb_male.isChecked) {
@@ -216,11 +245,13 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         if (mUserProfileImageURL.isNotEmpty()) {
             userHashMap[Constants.IMAGE] = mUserProfileImageURL
         }
-
-        if (mobileNumber.isNotEmpty()) {
+        //Update the code here if it is to edit the profile.
+        if (mobileNumber.isNotEmpty() && mobileNumber != mUserDetails.mobile.toString()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
         }
-        userHashMap[Constants.GENDER] = gender
+        if (gender.isNotEmpty() && gender != mUserDetails.gender) {
+            userHashMap[Constants.GENDER] = gender
+        }
         // 0: профиль пользователя не подтвержден
         // 1: профиль пользователя  подтвержден
         userHashMap[Constants.COMPLETE_PROFILE] = 1

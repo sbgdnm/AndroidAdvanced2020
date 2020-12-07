@@ -26,8 +26,10 @@ object Constants {
 
     //уникальный код для выбора изображения из хранилища. Используя этот код, мы идентифицируем URI изображения, как только он будет выбран.
     //Уникальный код выбора изображения из памяти телефона.
-    const val PICK_IMAGE_REQUEST_CODE = 2
-
+    const val PICK_IMAGE_REQUEST_CODE = 1
+    //постоянные переменные для фио
+    const val FIRST_NAME: String = "firstName"
+    const val LAST_NAME: String = "lastName"
     // Постоянные переменные для "Пола"
     const val MALE: String = "Male"
     const val FEMALE: String = "Female"
@@ -41,9 +43,6 @@ object Constants {
     //константа ждя того чтобы проверить первый ли раз зашел на аккаунт пользоваетель
     const val COMPLETE_PROFILE: String = "profileCompleted"
 
-
-    const val FIRST_NAME: String = "firstName"
-    const val LAST_NAME: String = "lastName"
 
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)
     fun showImageChooser(activity: Activity) {

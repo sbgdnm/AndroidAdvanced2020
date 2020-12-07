@@ -43,7 +43,8 @@
     <string name="email_sent_success">\"На вашу почту отпарвлена ссылка для восстановления пароля!\"</string>
 
     //Профайл юзер
-    <string name="title_complete_profile">МОЙ ПРОФИЛЬ</string>
+    <string name="title_complete_profile">ПОДТВЕРЖДЕНИЕ ПРОФИЛЯ</string>
+    <string name="title_edit_profile">Настроить профиль</string>
     <string name="et_hint_mobile_number">Телефон</string>
     <string name="rb_lbl_male">М</string>
     <string name="rb_lbl_female">Ж</string>
@@ -72,6 +73,14 @@
     <string name="lbl_edit">Изменить</string>
     <string name="lbl_addresses">Адрес</string>
     <string name="btn_lbl_logout">Выйти</string>
-    <string name="title_edit_profile">Настроить профайл.</string>
+
+    //добавление моего рецепта
+    <string name="action_add_myproduct">Добавить мои рецепты</string>
+    <string name="title_add_product">ДОБАВИТЬ РЕЦЕПТ</string>
+    <string name="et_hint_product_title">Название рецепта</string>
+    <string name="et_hint_product_price">Цена продуктов (TNG)</string>
+    <string name="et_hint_product_description">Описание рецептa</string>
+    <string name="et_hint_product_ingredients">Ингредиенты</string>
+    <string name="btn_my_product_submit">Опубликовать</string>
 
 </resources>

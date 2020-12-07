@@ -11,7 +11,6 @@ import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 
 
 class  DashboardFragment : Fragment() {
-    //private lateinit var dashboardViewModel: DashboardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +24,9 @@ class  DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        /*dashboardViewModel =
-            ViewModelProviders.of(this).get(DashboardViewModel::class.java)*/
-
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
         textView.text = "dashboard"
-        /*dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
         return root
     }
     //Override the onCreateOptionMenu function and inflate the Dashboard menu file init.
