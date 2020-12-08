@@ -67,7 +67,7 @@ class ProductsFragment : BaseFragment() {
             rv_my_product_items.layoutManager = LinearLayoutManager(activity)   //ставим их  как ланиер лайаут
             rv_my_product_items.setHasFixedSize(true)
 
-            // Передайте значение третьего параметра.
+            // Передайте значение
             val adapterProducts =
                 MyProductsListAdapter(requireActivity(), productsList, this@ProductsFragment)
                 rv_my_product_items.adapter = adapterProducts

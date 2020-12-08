@@ -92,6 +92,8 @@
 
     <string name="product_uploaded_success_message">Ваш рецепт успешно опубликован!</string>
     <string name="no_my_products_added_yet">Вы еще не добавили рецепты! Пожалуйста,поделитесь своими вкусными рецептами!</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="no_recipe_item_found">Рецепты не найдены!</string>
 </resources>
