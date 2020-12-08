@@ -1,4 +1,4 @@
-package com.sbgdnm.yummyfood.ui.activities
+package com.sbgdnm.yummyfood.ui.activities.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.sbgdnm.yummyfood.R
-import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
+import com.sbgdnm.yummyfood.ui.activities.DashboardActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 @Suppress("DEPRECATION")

@@ -16,7 +16,7 @@
             android:name=".ui.activities.DashboardActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".ui.activities.SplashActivity"
+            android:name=".ui.activities.auth.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

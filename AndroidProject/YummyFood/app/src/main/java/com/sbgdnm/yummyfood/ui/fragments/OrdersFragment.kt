@@ -1,4 +1,4 @@
-package com.sbgdnm.yummyfood.ui.fragment
+package com.sbgdnm.yummyfood.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

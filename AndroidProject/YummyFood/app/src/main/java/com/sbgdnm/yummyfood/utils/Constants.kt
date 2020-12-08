@@ -38,14 +38,24 @@ object Constants {
     // Firebase database имена полей базы данных
     const val MOBILE: String = "mobile"
     const val GENDER: String = "gender"
+
     //профиль фото
     const val USER_PROFILE_IMAGE:String = "User_Profile_Image"
     const val IMAGE: String = "image"
+
     //константа ждя того чтобы проверить первый ли раз зашел на аккаунт пользоваетель
     const val COMPLETE_PROFILE: String = "profileCompleted"
 
     //постоянные для фото рецепта
     const val PRODUCT_IMAGE: String = "MyRecipe_Product_Image"
+
+    //для робыты с рецептами который ввел один пользователь , так же он понадобится для показа заказов еды одного пользователя
+    const val USER_ID: String = "user_id"
+
+
+
+
+
 
 
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)

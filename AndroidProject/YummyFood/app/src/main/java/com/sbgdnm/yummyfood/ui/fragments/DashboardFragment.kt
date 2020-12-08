@@ -1,11 +1,10 @@
-package com.sbgdnm.yummyfood.ui.fragment
+package com.sbgdnm.yummyfood.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 

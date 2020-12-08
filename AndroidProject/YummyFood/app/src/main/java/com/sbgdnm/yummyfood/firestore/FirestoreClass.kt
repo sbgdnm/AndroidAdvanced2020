@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -17,6 +18,7 @@ import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
+import com.sbgdnm.yummyfood.ui.fragments.ProductsFragment
 import com.sbgdnm.yummyfood.utils.Constants
 
 class FirestoreClass {
@@ -214,9 +216,8 @@ class FirestoreClass {
             }
     }
 
-    /**
-     * Функция для внесения записи продукта пользователя в облачную базу данных firestore.
-     */
+
+     //Функция для внесения записи продукта пользователя в облачную базу данных firestore.
     fun uploadProductDetails(activity: AddMyProductActivity, productInfo: Product) {
 
         mFireStore.collection(Constants.PRODUCTS)
@@ -240,5 +241,45 @@ class FirestoreClass {
             }
     }
 
+    //A function to get the products list from cloud firestore.
+     // @param fragment The fragment is passed as parameter as the function is called from fragment and need to the success result.
+    fun getProductsList(fragment: Fragment) {
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.PRODUCTS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the list of boards in the form of documents.
+                Log.e("Список рецептов(продуктов)", document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val productsList: ArrayList<Product> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val product = i.toObject(Product::class.java)
+                    product!!.product_id = i.id
+
+                    productsList.add(product)
+                }
+
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.successProductsListFromFireStore(productsList)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error based on the base class instance.
+                when (fragment) {
+                    is ProductsFragment -> {
+                        fragment.hideProgressDialog()
+                    }
+                }
+                Log.e("Получит список продуктов(рецептов)", "Ошибка при получении списка рецептов(продуктов)", e)
+            }
+    }
 
 }
