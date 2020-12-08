@@ -2,6 +2,7 @@ package com.sbgdnm.yummyfood.ui.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.sbgdnm.yummyfood.R
+import com.sbgdnm.yummyfood.firestore.FirestoreClass
+import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.utils.Constants
 import com.sbgdnm.yummyfood.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_add_my_product.*
@@ -52,8 +55,10 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             when (v.id) {
                 // The permission code is similar to the user profile image selection.
                 R.id.iv_add_update_product -> {
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) //добавлен в манивесте , для доступа и открытия галереи в телефоне
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) //добавлен в манивесте , для доступа и открытия галереи в телефоне
                         == PackageManager.PERMISSION_GRANTED
                     ) {
                         Constants.showImageChooser(this@AddMyProductActivity)
@@ -71,8 +76,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
                 R.id.btn_submit -> {
                     if (validateProductDetails()) {
-                        showErrorSnackBar("Ваш рецепт успешно опубликован" , false)
-                       // uploadProductImage()
+                        uploadProductImage()
                     }
                 }
 
@@ -108,6 +112,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             }
         }
     }
+
     // Получаем результат после выбора изображения из памяти телефона, используя уникальный код, который мы передали в момент выбора через intent.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -178,5 +183,59 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             }
         }
     }
+    //A function to upload the selected product image to firebase cloud storage.
+    private fun uploadProductImage() {
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().uploadImageToCloudStorage(
+            this@AddMyProductActivity,
+            mSelectedImageFileUri,
+            Constants.PRODUCT_IMAGE
+        )
+    }
 
+    private fun uploadProductDetails() {
+
+        // Get the logged in username from the SharedPreferences that we have stored at a time of login.
+        val username =
+            this.getSharedPreferences(Constants.MY_YF_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(Constants.LOGGED_IN_USERNAME, "")!!
+
+        // Here we get the text from editText and trim the space
+        val product = Product(
+            FirestoreClass().getCurrentUserID(),
+            username,
+            et_product_title.text.toString().trim { it <= ' ' },
+            et_product_price.text.toString().trim { it <= ' ' },
+            et_product_description.text.toString().trim { it <= ' ' },
+            et_product_ingredients.text.toString().trim { it <= ' ' },
+            mProductImageURL
+        )
+        //когда все уже подготовлено отпрявляем в firestoreclass где там загрухят в сайт firebase
+        FirestoreClass().uploadProductDetails(this@AddMyProductActivity, product)
+    }
+    //A function to get the successful result of product image upload.
+    //Функция уведомления об успешном результате загрузки изображения в облачное хранилище.
+    //@param imageURL После успешной загрузки Firebase Cloud возвращает URL-адрес.
+    fun imageUploadSuccess(imageURL: String) {
+
+        // Initialize the global image url variable.
+        mProductImageURL = imageURL
+
+        uploadProductDetails()
+    }
+
+    /**
+     * A function to return the successful result of Product upload.
+     */
+    fun productUploadSuccess() {
+        // Hide the progress dialog
+        hideProgressDialog()
+        Toast.makeText(
+            this@AddMyProductActivity,
+            resources.getString(R.string.product_uploaded_success_message),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        finish()
+    }
 }

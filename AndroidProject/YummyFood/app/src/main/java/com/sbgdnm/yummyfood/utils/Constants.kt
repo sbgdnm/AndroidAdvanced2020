@@ -9,8 +9,9 @@ import android.webkit.MimeTypeMap
 object Constants {
 
     // Firebase Constants
-    // users коллекции в firestore
+    // users и products коллекции в firestore
     const val USERS: String = "users"
+    const val PRODUCTS: String = "products"
 
     //постоянные переменные для shared preferences и Username Key
     const val MY_YF_PREFERENCES: String = "MyYFPrefs"
@@ -42,6 +43,9 @@ object Constants {
     const val IMAGE: String = "image"
     //константа ждя того чтобы проверить первый ли раз зашел на аккаунт пользоваетель
     const val COMPLETE_PROFILE: String = "profileCompleted"
+
+    //постоянные для фото рецепта
+    const val PRODUCT_IMAGE: String = "MyRecipe_Product_Image"
 
 
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)

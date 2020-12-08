@@ -127,8 +127,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                         if (mSelectedImageFileUri != null) {
                             FirestoreClass().uploadImageToCloudStorage(
                                 this@UserProfileActivity,
-                                mSelectedImageFileUri
-                            )
+                                mSelectedImageFileUri , Constants.USER_PROFILE_IMAGE)
                         } else {
                             // Вызовите функцию сведений об обновлении пользователя.
                             updateUserProfileDetails()

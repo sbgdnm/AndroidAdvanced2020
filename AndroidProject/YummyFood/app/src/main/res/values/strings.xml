@@ -89,4 +89,6 @@
     <string name="err_msg_enter_product_price">Пожалуйста, напишите примерную цену продуктов для этого рецепта</string>
     <string name="err_msg_enter_product_description">Пожалуйста, напишите описание (по шагово что надо сделать для приготовления)</string>
     <string name="err_msg_enter_product_ingredients">Пожалуйста, напишите ингредиентся вашего рецепта.</string>
+
+    <string name="product_uploaded_success_message">Ваш рецепт успешно опубликован!</string>
 </resources>

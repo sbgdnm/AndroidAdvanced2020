@@ -10,7 +10,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.models.User
+import com.sbgdnm.yummyfood.ui.activities.AddMyProductActivity
 import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
@@ -158,11 +160,11 @@ class FirestoreClass {
     }
 
     // Функция загрузки изображения в облачное хранилище.
-    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri? , imageType: String) {
 
         //получение ссылки на хранилище
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+            imageType + System.currentTimeMillis() + "."
                     + Constants.getFileExtension(
                 activity,
                 imageFileURI
@@ -187,6 +189,9 @@ class FirestoreClass {
                             is UserProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
+                            is AddMyProductActivity -> {
+                            activity.imageUploadSuccess(uri.toString())
+                            }
                         }
                     }
             }
@@ -194,6 +199,9 @@ class FirestoreClass {
                 // Закрываем диалоговое окно прогресса т.е. загрузки, если есть какая-либо ошибка. То показываем ошибку в журнале.
                 when (activity) {
                     is UserProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is AddMyProductActivity -> {
                         activity.hideProgressDialog()
                     }
                 }
@@ -205,4 +213,32 @@ class FirestoreClass {
                 )
             }
     }
+
+    /**
+     * A function to make an entry of the user's product in the cloud firestore database.
+     */
+    fun uploadProductDetails(activity: AddMyProductActivity, productInfo: Product) {
+
+        mFireStore.collection(Constants.PRODUCTS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(productInfo, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Here call a function of base activity for transferring the result to it.
+                activity.productUploadSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while uploading the product details.",
+                    e
+                )
+            }
+    }
+
+
 }
