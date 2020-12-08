@@ -57,7 +57,7 @@ class  RecipeFragment : BaseFragment() {
             rv_recipe_items.visibility = View.VISIBLE
             tv_no_recipe_items_found.visibility = View.GONE
 
-            rv_recipe_items.layoutManager = LinearLayoutManager(activity) //GridLayoutManager(activity, 2)
+            rv_recipe_items.layoutManager = LinearLayoutManager(activity) //LinearLayoutManager(activity) GridLayoutManager(activity, 2)
             rv_recipe_items.setHasFixedSize(true)
 
             val adapter = RecipeItemsListAdapter(requireActivity(), recipeItemsList)

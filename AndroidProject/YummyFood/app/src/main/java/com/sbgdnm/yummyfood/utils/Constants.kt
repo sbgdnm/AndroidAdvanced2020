@@ -12,6 +12,7 @@ object Constants {
     // users и products коллекции в firestore
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
+    const val DASHBOARD_PRODUCTS: String = "dashboard"
 
     //постоянные переменные для shared preferences и Username Key
     const val MY_YF_PREFERENCES: String = "MyYFPrefs"

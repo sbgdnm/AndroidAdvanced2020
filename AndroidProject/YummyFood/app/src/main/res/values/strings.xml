@@ -94,6 +94,16 @@
     <string name="no_my_products_added_yet">Вы еще не добавили рецепты! Пожалуйста,поделитесь своими вкусными рецептами!</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    //не найдены рецепты
     <string name="no_recipe_item_found">Рецепты не найдены!</string>
+
+    //удаление одного из моих рецептов
+    <string name="product_delete_success_message">Ваш рецепт успешно удален.</string>
+    <string name="delete_dialog_title">Удалание рецепта</string>
+    <string name="delete_dialog_message">Вы уверены что хотите удалить рецепт? Думаю другие не хотели бы чтоб ваш рецепт был удален</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    //не найдены продукты в dashboard
+    <string name="no_dashboard_item_found">Не найдены продукты для заказа на дом!</string>
 </resources>

@@ -4,77 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/item_dashboard_margin"
+    android:layout_margin="@dimen/item_recipe_margin"
     android:background="@drawable/item_recipe_background"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/item_dashboard_padding">
-
-    <ImageView
-        android:id="@+id/iv_recipe_item_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_dashboard_image_height"
-        android:layout_margin="@dimen/item_dashboard_image_margin"
-        android:background="@color/colorImageViewBackground"
-        android:contentDescription="@string/content_description"
-        android:minHeight="@dimen/item_dashboard_image_height"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_splash_background" />
-
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:layout_below="@id/iv_recipe_item_image"
-        android:background="@color/colorBorder" />
+    android:padding="@dimen/item_recipe_padding">
 
     <LinearLayout
-        android:id="@+id/ll_recipe_item_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_divider"
-        android:background="@color/dashboard_item_details_bg"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/dashboard_item_paddingStartEnd"
-        android:paddingTop="@dimen/dashboard_item_paddingTopBottom"
-        android:paddingEnd="@dimen/dashboard_item_paddingStartEnd"
-        android:paddingBottom="@dimen/dashboard_item_paddingTopBottom">
+        android:orientation="horizontal">
 
-        <com.sbgdnm.yummyfood.utils.YFTextViewBold
-            android:id="@+id/tv_recipe_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/item_value_text_color"
-            android:textSize="@dimen/dashboard_item_textSize"
-            android:textStyle="bold"
-            tools:text="Item Name" />
+        <ImageView
+            android:id="@+id/iv_recipe_item_image"
+            android:layout_width="199dp"
+            android:layout_height="@dimen/item_recipe_image_height"
+            android:layout_marginStart="@dimen/item_recipe_image_margin"
+            android:layout_marginTop="@dimen/item_recipe_image_margin"
+            android:layout_marginEnd="@dimen/item_recipe_image_margin"
+            android:layout_marginBottom="@dimen/item_recipe_image_margin"
+            android:background="@color/colorImageViewBackground"
+            android:contentDescription="@string/content_description"
+            android:minHeight="@dimen/item_recipe_image_height"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_splash_background" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="7dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/colorBorder" />
 
         <LinearLayout
+            android:id="@+id/ll_recipe_item_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:background="@color/dashboard_item_details_bg"
+            android:orientation="vertical"
+            android:layout_marginTop="9dp"
+            android:paddingStart="@dimen/recipe_item_paddingStartEnd"
+            android:paddingTop="@dimen/recipe_item_paddingTopBottom"
+            android:paddingEnd="@dimen/recipe_item_paddingStartEnd"
+            android:paddingBottom="@dimen/recipe_item_paddingTopBottom">
 
-            <com.sbgdnm.yummyfood.utils.YFTextView
-                android:id="@+id/tv_recipe_item_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dashboard_item_price_marginTop"
-                android:textColor="@color/item_value_text_color"
-                android:textSize="@dimen/dashboard_item_textSize"
-                android:textStyle="bold"
-                tools:text="$100.00" />
-
-            <com.sbgdnm.yummyfood.utils.YFTextView
-                android:id="@+id/tv_recipe_item_name"
+            <com.sbgdnm.yummyfood.utils.YFTextViewBold
+                android:id="@+id/tv_recipe_item_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end"
-                android:layout_marginTop="@dimen/dashboard_item_price_marginTop"
+                android:layout_height="wrap_content"
                 android:textColor="@color/item_value_text_color"
-                android:textSize="@dimen/dashboard_item_textSize"
+                android:textSize="@dimen/recipe_item_textSize"
                 android:textStyle="bold"
-                tools:text="Samat Bagdan" />
-        </LinearLayout>
+                tools:text="Item Name" />
 
+                <com.sbgdnm.yummyfood.utils.YFTextView
+                    android:id="@+id/tv_recipe_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/recipe_item_price_marginTop"
+                    android:textColor="@color/item_value_text_color"
+                    android:textSize="@dimen/recipe_item_textSize"
+                    android:textStyle="bold"
+                    tools:text="$100.00" />
+
+                <com.sbgdnm.yummyfood.utils.YFTextView
+                    android:id="@+id/tv_recipe_item_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/item_value_text_color"
+                    android:textSize="@dimen/recipe_item_textSize"
+                    android:textStyle="bold"
+                    tools:text="ingredients" />
+
+                <com.sbgdnm.yummyfood.utils.YFTextViewBold
+                    android:id="@+id/tv_recipe_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/item_value_text_color"
+                    android:textSize="@dimen/recipe_item_textSize"
+                    android:textStyle="bold"
+                    tools:text="Samat Bagdan" />
+
+
+        </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>

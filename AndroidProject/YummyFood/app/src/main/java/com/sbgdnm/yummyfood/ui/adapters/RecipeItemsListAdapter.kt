@@ -44,12 +44,13 @@ open class RecipeItemsListAdapter(
 
         if (holder is MyViewHolder) {
 
-            GlideLoader(context).loadUserPicture(
+            GlideLoader(context).loadProductPicture(
                 model.image,
                 holder.itemView.iv_recipe_item_image)
             holder.itemView.tv_recipe_item_title.text = model.title
-            holder.itemView.tv_recipe_item_price.text = "TNG${model.price}"
+            holder.itemView.tv_recipe_item_price.text = "TNG ${model.price}"
             holder.itemView.tv_recipe_item_name.text = "${model.user_name}"
+            holder.itemView.tv_recipe_item_ingredients.text = "Ингридиенты: ${model.ingredients}..."
         }
     }
 

@@ -46,7 +46,7 @@ open class MyProductsListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
         if (holder is MyViewHolder) {
-            GlideLoader(context).loadUserPicture(model.image, holder.itemView.iv_item_image)
+            GlideLoader(context).loadProductPicture(model.image, holder.itemView.iv_item_image)
 
             holder.itemView.tv_item_name.text = model.title
             holder.itemView.tv_item_price.text = "TNG ${model.price}"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.firestore.FirestoreClass
@@ -91,12 +92,61 @@ class ProductsFragment : BaseFragment() {
      * @param productID To specify which product need to be deleted.
      */
     fun deleteProduct(productID: String) {
+        // Здесь мы вызовем функцию delete класса FirestoreClass.
+        showAlertDialogToDeleteProduct( productID)
+    }
+    /**
+     * A function to notify the success result of product deleted from cloud firestore.
+     */
+    fun productDeleteSuccess() {
 
-        // Здесь мы вызовем функцию delete класса FirestoreClass. Но пока давайте выведем тост-сообщение и вызовем эту функцию из класса адаптера.
+        // Hide the progress dialog
+        hideProgressDialog()
+
         Toast.makeText(
             requireActivity(),
-            "Вы удалили $productID",
+            resources.getString(R.string.product_delete_success_message),
             Toast.LENGTH_SHORT
         ).show()
+
+        // Get the latest products list from cloud firestore.
+        getProductListFromFireStore()
+    }
+
+    /**
+     * A function to show the alert dialog for the confirmation of delete product from cloud firestore.
+     */
+    private fun showAlertDialogToDeleteProduct(productID: String) {
+
+        val builder = AlertDialog.Builder(requireActivity())
+        //set title for alert dialog
+        builder.setTitle(resources.getString(R.string.delete_dialog_title))
+        //set message for alert dialog
+        builder.setMessage(resources.getString(R.string.delete_dialog_message))
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        //performing positive action
+        builder.setPositiveButton(resources.getString(R.string.yes)) { dialogInterface, _ ->
+
+            //  Call the function to delete the product from cloud firestore.
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            // Call the function of Firestore class.
+            FirestoreClass().deleteProduct(this@ProductsFragment, productID)
+
+            dialogInterface.dismiss()
+        }
+
+        //performing negative action
+        builder.setNegativeButton(resources.getString(R.string.no)) { dialogInterface, _ ->
+
+            dialogInterface.dismiss()
+        }
+        // Create the AlertDialog
+        val alertDialog: AlertDialog = builder.create()
+        // Set other dialog properties
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 }

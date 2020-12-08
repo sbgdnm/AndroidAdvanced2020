@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.sbgdnm.yummyfood.models.DashboardProduct
 import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.AddMyProductActivity
@@ -18,6 +19,7 @@ import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
+import com.sbgdnm.yummyfood.ui.fragments.DashboardFragment
 import com.sbgdnm.yummyfood.ui.fragments.ProductsFragment
 import com.sbgdnm.yummyfood.ui.fragments.RecipeFragment
 import com.sbgdnm.yummyfood.utils.Constants
@@ -308,6 +310,59 @@ class FirestoreClass {
 
                 // Pass the success result to the base fragment.
                 fragment.successRecipeItemsList(productsList)
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error which getting the dashboard items list.
+                fragment.hideProgressDialog()
+                Log.e(fragment.javaClass.simpleName, "Error while getting recipe items list.", e)
+            }
+    }
+    /**
+     * A function to delete the product from the cloud firestore.
+     */
+    fun deleteProduct(fragment: ProductsFragment, productId: String) {
+
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                // Notify the success result to the base class.
+                fragment.productDeleteSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is an error.
+                fragment.hideProgressDialog()
+
+                Log.e(
+                    fragment.requireActivity().javaClass.simpleName,
+                    "Error while deleting the product.",
+                    e
+                )
+            }
+    }
+    fun getDashboardItemsList(fragment: DashboardFragment) {
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the list of boards in the form of documents.
+                Log.e(fragment.javaClass.simpleName, document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val dashboard_productsList: ArrayList<DashboardProduct> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val dashboard_product = i.toObject(DashboardProduct::class.java)!!
+                    dashboard_product.product_id = i.id
+                    dashboard_productsList.add(dashboard_product)
+                }
+
+                // Pass the success result to the base fragment.
+                fragment.successDashboardItemsList(dashboard_productsList)
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error which getting the dashboard items list.
