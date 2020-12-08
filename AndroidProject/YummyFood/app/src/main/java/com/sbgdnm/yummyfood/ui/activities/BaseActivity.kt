@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.dialog_progress.*
 open class BaseActivity : AppCompatActivity() {
 
     private lateinit var mProgressDialog: Dialog
-    //A global variable for double back press feature.
+    //Глобальная переменная для функции двойного обратного нажатия.
     private var doubleBackToExitPressedOnce = false
 
     //Когда при заполнении полей , например , при регистрации выходит ошибка целостности аккаунта при регистрации
@@ -61,7 +61,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     /**
-     * A function to implement the double back press feature to exit the app.
+     * Функция для реализации функции двойного обратного нажатия для выхода из приложения.
      */
     fun doubleBackToExit() {
 

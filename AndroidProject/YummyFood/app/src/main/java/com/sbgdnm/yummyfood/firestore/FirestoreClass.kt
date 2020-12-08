@@ -116,7 +116,7 @@ class FirestoreClass {
 
                 Log.e(
                     activity.javaClass.simpleName,
-                    "Error while getting user details.",
+                    "Ошибка при получении сведений о пользователе.",
                     e
                 )
             }
@@ -215,17 +215,17 @@ class FirestoreClass {
     }
 
     /**
-     * A function to make an entry of the user's product in the cloud firestore database.
+     * Функция для внесения записи продукта пользователя в облачную базу данных firestore.
      */
     fun uploadProductDetails(activity: AddMyProductActivity, productInfo: Product) {
 
         mFireStore.collection(Constants.PRODUCTS)
             .document()
-            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            // Здесь userInfo-это поле, а SetOption - слияние. Это для того, если мы хотим слиться
             .set(productInfo, SetOptions.merge())
             .addOnSuccessListener {
 
-                // Here call a function of base activity for transferring the result to it.
+                // Здесь вызывается функция базовой активности для передачи ей результата.
                 activity.productUploadSuccess()
             }
             .addOnFailureListener { e ->
@@ -234,7 +234,7 @@ class FirestoreClass {
 
                 Log.e(
                     activity.javaClass.simpleName,
-                    "Error while uploading the product details.",
+                    "Ошибка при загрузке сведений о продукте(рецепте).",
                     e
                 )
             }

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * A data model class for Product with required fields.
+ * Класс модели данных для продукта с обязательными полями.
  */
 @Parcelize
 data class Product(

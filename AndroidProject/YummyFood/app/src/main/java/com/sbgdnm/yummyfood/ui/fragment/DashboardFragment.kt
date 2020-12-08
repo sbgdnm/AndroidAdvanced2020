@@ -14,7 +14,7 @@ class  DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // If we want to use the option menu in fragment we need to add it.
+        // Если мы хотим использовать меню опций во фрагменте, нам нужно добавить его.
         setHasOptionsMenu(true)
     }
 
@@ -29,20 +29,20 @@ class  DashboardFragment : Fragment() {
         textView.text = "dashboard"
         return root
     }
-    //Override the onCreateOptionMenu function and inflate the Dashboard menu file init.
+    //Переопределите функцию onCreateOptionMenu и раздуйте файл меню панели мониторинга init.
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.dashboard_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
 
-    //Override the onOptionItemSelected function and handle the action items init.
+    //Переопределите функцию onOptionItemSelected и обработайте элементы действия init.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
         when (id) {
             R.id.action_settings -> {
-                //Launch the SettingActivity on click of action item.
+                //Запустите SettingActivity по щелчку элемента action.
                 startActivity(Intent(activity, SettingsActivity::class.java))
                 return true
             }

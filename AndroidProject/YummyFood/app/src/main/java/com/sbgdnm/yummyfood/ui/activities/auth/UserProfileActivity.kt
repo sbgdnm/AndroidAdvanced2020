@@ -99,7 +99,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
+                        )//добавлен в манивесте , для доступа и открытия галереи в телефоне
                         == PackageManager.PERMISSION_GRANTED
                     ) {
                         //вызовием функцию выбора изображения (из constants), когда у пользователя уже есть разрешение на чтение хранилища.

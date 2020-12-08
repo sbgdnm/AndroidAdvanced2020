@@ -23,10 +23,10 @@ import java.io.IOException
 
 class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
-    // A global variable for URI of a selected image from phone storage.
+    // Глобальная переменная для URI выбранного изображения из памяти телефона.
     private var mSelectedImageFileUri: Uri? = null
 
-    // A global variable for uploaded product image URL.
+    // Глобальная переменная для URL-адреса загруженного изображения продукта.
     private var mProductImageURL: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,19 +53,21 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
-                // The permission code is similar to the user profile image selection.
+                // Код разрешения аналогичен выбору изображения профиля пользователя.
+                    //(// Здесь мы проверим, разрешено ли разрешение уже или нам нужно его запросить.
+                       // Прежде всего мы проверим разрешение READ_EXTERNAL_STORAGE, и если оно не будет разрешено, мы запросим его)
                 R.id.iv_add_update_product -> {
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         ) //добавлен в манивесте , для доступа и открытия галереи в телефоне
                         == PackageManager.PERMISSION_GRANTED
-                    ) {
+                    ) {//вызовием функцию выбора изображения (из constants), когда у пользователя уже есть разрешение на чтение хранилища.
                         Constants.showImageChooser(this@AddMyProductActivity)
                     } else {
-                        /*Requests permissions to be granted to this application. These permissions
-                        must be requested in your manifest, they should not be granted to your app,
-                        and they should have protection level*/
+                        /*Запрашивает разрешения, которые должны быть предоставлены этому приложению.
+                        Эти разрешения должны быть запрошены в вашем манифесте, они не должны быть предоставлены вашему приложению,
+                        и они должны иметь уровень защиты*/
                         ActivityCompat.requestPermissions(
                             this,
                             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -85,7 +87,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
     }
 
     /**
-     * This function will identify the result of runtime permission after the user allows or deny permission based on the unique code.
+     * Эта функция будет идентифицировать результат разрешения среды выполнения после того, как пользователь разрешит или откажет в разрешении на основе уникального кода.
      *
      * @param requestCode
      * @param permissions
@@ -120,18 +122,18 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             && requestCode == Constants.PICK_IMAGE_REQUEST_CODE
             && data!!.data != null
         ) {
-            // Replace the add icon with edit icon once the image is selected.
+            // Замените значок добавления значком редактирования, как только изображение будет выбрано.
             iv_add_update_product.setImageDrawable(
                 ContextCompat.getDrawable(
                     this@AddMyProductActivity,
                     R.drawable.ic_vector_edit
                 )
             )
-            // The uri of selection image from phone storage.
+            // Uri выделения изображения из памяти телефона.
             mSelectedImageFileUri = data.data!!
 
             try {
-                // Load the product image in the ImageView.
+                // Загрузить product image в ImageView.
                 GlideLoader(this@AddMyProductActivity).loadUserPicture(
                     mSelectedImageFileUri!!,
                     iv_product_image
@@ -143,7 +145,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
     }
 
     /**
-     * A function to validate the product details.
+     * Функция проверки сведений о продукте.
      */
     private fun validateProductDetails(): Boolean {
         return when {
@@ -183,7 +185,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
             }
         }
     }
-    //A function to upload the selected product image to firebase cloud storage.
+    //Функция загрузки выбранного изображения продукта в облачное хранилище firebase.
     private fun uploadProductImage() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().uploadImageToCloudStorage(
@@ -195,12 +197,12 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
     private fun uploadProductDetails() {
 
-        // Get the logged in username from the SharedPreferences that we have stored at a time of login.
+        // Получите имя пользователя, вошедшего в систему, из SharedPreferences, которые мы сохранили во время входа в систему.
         val username =
             this.getSharedPreferences(Constants.MY_YF_PREFERENCES, Context.MODE_PRIVATE)
                 .getString(Constants.LOGGED_IN_USERNAME, "")!!
 
-        // Here we get the text from editText and trim the space
+        // Здесь мы получаем текст из editText и обрезаем пространство
         val product = Product(
             FirestoreClass().getCurrentUserID(),
             username,
@@ -213,8 +215,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
         //когда все уже подготовлено отпрявляем в firestoreclass где там загрухят в сайт firebase
         FirestoreClass().uploadProductDetails(this@AddMyProductActivity, product)
     }
-    //A function to get the successful result of product image upload.
-    //Функция уведомления об успешном результате загрузки изображения в облачное хранилище.
+    //Функция для получения успешного результата загрузки изображения продукта (моих рецептов).
     //@param imageURL После успешной загрузки Firebase Cloud возвращает URL-адрес.
     fun imageUploadSuccess(imageURL: String) {
 
@@ -223,9 +224,8 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
         uploadProductDetails()
     }
-
     /**
-     * A function to return the successful result of Product upload.
+     * Функция для возврата успешного результата загрузки продукта.
      */
     fun productUploadSuccess() {
         // Hide the progress dialog

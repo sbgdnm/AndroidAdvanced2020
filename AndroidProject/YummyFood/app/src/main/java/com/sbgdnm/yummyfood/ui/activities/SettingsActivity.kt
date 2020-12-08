@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity() , View.OnClickListener{
 
-    // A variable for user details which will be initialized later on.
+    // Переменная для сведений о пользователе, которая будет инициализирована позже.
     private lateinit var mUserDetails: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +26,12 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
         // Call the function to setup action bar.
         setupActionBar()
 
-        //Assign the onclick event to the edit text
+        //Назначьте событие onclick редактируемому тексту
         tv_edit.setOnClickListener(this@SettingsActivity)
-        // Assign the onclick event to the logout button.
+        // Назначить событие onclick для кнопки "Выход".
         btn_logout.setOnClickListener(this@SettingsActivity)
     }
-    //Override the onResume function and call the getUserDetails function init.
+    //Переопределите функцию onResume и вызовите функцию getUserDetails init.
     override fun onResume() {
         super.onResume()
 
@@ -56,29 +56,27 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
     }
 
 
-    //Create a function to get the user details from firestore.
     /**
-     * A function to get the user details from firestore.
+     * Функция для получения сведений о пользователе из firestore.
      */
     private fun getUserDetails() {
         // Show the progress dialog
         showProgressDialog(resources.getString(R.string.please_wait))
-        // Call the function of Firestore class to get the user details from firestore which is already created.
+        // Вызовите функцию класса Firestore, чтобы получить сведения о пользователе из уже созданного firestore.
         FirestoreClass().getUserDetails(this@SettingsActivity)
     }
 
-    // Create a function to receive the success result.
     /**
-     * A function to receive the user details and populate it in the UI.
+     * Функция для получения сведений о пользователе и заполнения их в пользовательском интерфейсе.
      */
     fun userDetailsSuccess(user: User) {
-        //Initialize the mUserDetails variable.
+        //Инициализируйте переменную mUserDetails.
         mUserDetails = user
-        //Set the user details to UI.
+        //Задать параметры пользователя для пользовательского интерфейса.
         // Hide the progress dialog
         hideProgressDialog()
 
-        // Load the image using the Glide Loader class.
+        // Загрузите изображение с помощью класса Glide Loader.
         GlideLoader(this@SettingsActivity).loadUserPicture(user.image, iv_user_photo)
 
         tv_name.text = "${user.firstName} ${user.lastName}"
@@ -92,14 +90,14 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
         if (v != null) {
             when (v.id) {
 
-                // Call the User Profile Activity to add the Edit Profile feature to the app. Pass the user details through intent.
+                // Вызовите действие профиля пользователя, чтобы добавить в приложение функцию редактирования профиля. Передайте данные пользователя через intent.
                 R.id.tv_edit -> {
                     val intent = Intent(this@SettingsActivity, UserProfileActivity::class.java)
                     intent.putExtra(Constants.EXTRA_USER_DETAILS, mUserDetails)
                     startActivity(intent)
                 }
 
-                //Add Logout feature when user clicks on logout button.
+                //Добавьте функцию выхода из системы, когда пользователь нажимает на кнопку выхода.
                 R.id.btn_logout -> {
                     FirebaseAuth.getInstance().signOut()
                     val intent = Intent(this@SettingsActivity, LoginActivity::class.java)

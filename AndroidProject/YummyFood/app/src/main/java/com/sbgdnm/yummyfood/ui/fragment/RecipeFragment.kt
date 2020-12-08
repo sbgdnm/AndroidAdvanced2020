@@ -12,7 +12,6 @@ import com.sbgdnm.yummyfood.R
 
 class  RecipeFragment : Fragment() {
 
-    //private lateinit var recipeViewModel: RecipeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,16 +19,11 @@ class  RecipeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        /*RecipeViewModel =
-            ViewModelProviders.of(this).get(RecipeViewModel::class.java)*/
-
         val root = inflater.inflate(R.layout.fragment_recipe, container, false)
         val textView: TextView = root.findViewById(R.id.text_recipe)
         textView.text = "Рецепты"
 
-        /*recipeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
+
         return root
     }
 }

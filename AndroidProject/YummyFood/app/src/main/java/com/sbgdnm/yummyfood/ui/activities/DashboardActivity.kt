@@ -16,7 +16,7 @@ class DashboardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        // Update the background color of the action bar as per our design requirement.
+        // Обновите цвет фона панели действий в соответствии с нашими требованиями к дизайну.
         supportActionBar!!.setBackgroundDrawable(
             ContextCompat.getDrawable(
                 this@DashboardActivity,
@@ -27,8 +27,8 @@ class DashboardActivity : BaseActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Передача каждого идентификатора меню в виде набора идентификаторов, поскольку каждый
+        // меню следует рассматривать как пункты назначения верхнего уровня.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_dashboard, R.id.navigation_orders, R.id.navigation_recipe ,R.id.navigation_products
