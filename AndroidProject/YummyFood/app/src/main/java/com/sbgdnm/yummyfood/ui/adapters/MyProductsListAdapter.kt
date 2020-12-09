@@ -51,9 +51,9 @@ open class MyProductsListAdapter(
             holder.itemView.tv_item_name.text = model.title
             holder.itemView.tv_item_price.text = "TNG ${model.price}"
 
-            //  Assigning the click event to the delete button.
+            //  Назначить событие click для кнопки "Удалить".
             holder.itemView.ib_delete_product.setOnClickListener {
-                //Now let's call the delete function of the ProductsFragment.
+                //Теперь давайте вызовем функцию delete ProductsFragment.
                 fragment.deleteProduct(model.product_id)
 
             }

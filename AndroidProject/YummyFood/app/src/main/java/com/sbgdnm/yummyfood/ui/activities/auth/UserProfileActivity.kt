@@ -222,12 +222,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         val userHashMap = HashMap<String, Any>()
 
 
-        // Get the FirstName from editText and trim the space
+        // Получите FirstName из editText и обрежьте пробел
         val firstName = et_first_name.text.toString().trim { it <= ' ' }
         if (firstName != mUserDetails.firstName) {
             userHashMap[Constants.FIRST_NAME] = firstName
         }
-        // Get the LastName from editText and trim the space
+        // Получите фамилию из editText и обрежьте пробел
         val lastName = et_last_name.text.toString().trim { it <= ' ' }
         if (lastName != mUserDetails.lastName) {
             userHashMap[Constants.LAST_NAME] = lastName
@@ -244,7 +244,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         if (mUserProfileImageURL.isNotEmpty()) {
             userHashMap[Constants.IMAGE] = mUserProfileImageURL
         }
-        //Update the code here if it is to edit the profile.
+        //Обновите код здесь, если он предназначен для редактирования профиля.
         if (mobileNumber.isNotEmpty() && mobileNumber != mUserDetails.mobile.toString()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
         }

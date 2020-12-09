@@ -50,13 +50,14 @@ class  DashboardFragment : BaseFragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onResume() {
         super.onResume()
 
         getDashboardItemsList()
     }
     /**
-     * A function to get the dashboard items list from cloud firestore.
+     * Функция для получения списка элементов панели мониторинга из cloud firestore.
      */
     private fun getDashboardItemsList() {
         // Show the progress dialog.
@@ -65,8 +66,7 @@ class  DashboardFragment : BaseFragment() {
         FirestoreClass().getDashboardItemsList(this@DashboardFragment)
     }
     /**
-     * A function to get the success result of the dashboard items from cloud firestore.
-     *
+     *Функция, чтобы получить успешный результат от пользования панель управления из облака firestore.
      * @param dashboardItemsList
      */
     fun successDashboardItemsList(dashboardItemsList: ArrayList<DashboardProduct>) {

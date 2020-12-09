@@ -25,16 +25,16 @@ class GlideLoader(val context: Context) {
         }
     }
     /**
-     * A function to load image from Uri or URL for the product image.
+     * Функция загрузки изображения из Uri или URL-адреса для изображения продукта.
      */
     fun loadProductPicture(image: Any, imageView: ImageView) {
         try {
-            // Load the user image in the ImageView.
+            //Загрузите изображение пользователя в ImageView.
             Glide
                 .with(context)
-                .load(image) // Uri or URL of the image
-                .centerCrop() // Scale type of the image.
-                .into(imageView) // the view in which the image will be loaded.
+                .load(image) //URI изображения
+                .centerCrop() //Масштабный тип изображения.
+                .into(imageView) // вид, в котором будет загружено изображение.
         } catch (e: IOException) {
             e.printStackTrace()
         }

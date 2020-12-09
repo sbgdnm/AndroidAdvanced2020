@@ -134,7 +134,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
             try {
                 // Загрузить product image в ImageView.
-                GlideLoader(this@AddMyProductActivity).loadUserPicture(
+                GlideLoader(this@AddMyProductActivity).loadProductPicture(
                     mSelectedImageFileUri!!,
                     iv_product_image
                 )

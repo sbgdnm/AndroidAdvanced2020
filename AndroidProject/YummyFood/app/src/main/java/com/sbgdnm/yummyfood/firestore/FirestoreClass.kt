@@ -96,10 +96,10 @@ class FirestoreClass {
                         // Вызовите функцию базового действия для передачи ей результата.
                         activity.userLoggedInSuccess(user)
                     }
-                    // Make the changes to send the success result to respective activity.
+                    // Внесите изменения, чтобы отправить результат успеха в соответствующее действие.
                     is SettingsActivity ->{
-                        // Call the function of base class.
-                        // Call a function of base activity for transferring the result to it.
+                        // Вызовите функцию базового класса.
+                        // Вызовите функцию базовой активности для передачи ей результата.
                         activity.userDetailsSuccess(user)
 
                     }
@@ -244,22 +244,22 @@ class FirestoreClass {
             }
     }
 
-    //A function to get the products list from cloud firestore.
+    //Функция для получения списка продуктов из cloud firestore.
      // @param fragment The fragment is passed as parameter as the function is called from fragment and need to the success result.
     fun getProductsList(fragment: Fragment) {
-        // The collection name for PRODUCTS
+        // Название коллекции для продуктов
         mFireStore.collection(Constants.PRODUCTS)
             .whereEqualTo(Constants.USER_ID, getCurrentUserID())
-            .get() // Will get the documents snapshots.
+            .get() //Получите снимки документов.
             .addOnSuccessListener { document ->
 
-                // Here we get the list of boards in the form of documents.
+                //Здесь мы получаем список досок в виде документов.
                 Log.e("Список рецептов(продуктов)", document.documents.toString())
 
-                // Here we have created a new instance for Products ArrayList.
+                // Здесь мы создали новый экземпляр для Products ArrayList.
                 val productsList: ArrayList<Product> = ArrayList()
 
-                // A for loop as per the list of documents to convert them into Products ArrayList.
+                // Цикл for В соответствии со списком документов для преобразования их в Products ArrayList.
                 for (i in document.documents) {
 
                     val product = i.toObject(Product::class.java)
@@ -286,21 +286,21 @@ class FirestoreClass {
     }
 
     /**
-     * A function to get the "recipe" items list. The list will be an overall items list, not based on the user's id.
+     * Функция для получения списка элементов "рецепт". Список будет представлять собой общий список элементов, а не основанный на идентификаторе пользователя.
      */
     fun getRecipeItemsList(fragment: RecipeFragment) {
-        // The collection name for PRODUCTS
+        // Название коллекции для продуктов
         mFireStore.collection(Constants.PRODUCTS)
-            .get() // Will get the documents snapshots.
+            .get() // Получите снимки документов.
             .addOnSuccessListener { document ->
 
-                // Here we get the list of boards in the form of documents.
+                // Здесь мы получаем список досок в виде документов.
                 Log.e(fragment.javaClass.simpleName, document.documents.toString())
 
-                // Here we have created a new instance for Products ArrayList.
+                // Здесь мы создали новый экземпляр для Products ArrayList.
                 val productsList: ArrayList<Product> = ArrayList()
 
-                // A for loop as per the list of documents to convert them into Products ArrayList.
+                //Цикл for В соответствии со списком документов для преобразования их в Products ArrayList.
                 for (i in document.documents) {
 
                     val product = i.toObject(Product::class.java)!!
@@ -308,7 +308,7 @@ class FirestoreClass {
                     productsList.add(product)
                 }
 
-                // Pass the success result to the base fragment.
+                // Передайте результат успеха базовому фрагменту.
                 fragment.successRecipeItemsList(productsList)
             }
             .addOnFailureListener { e ->
@@ -318,7 +318,7 @@ class FirestoreClass {
             }
     }
     /**
-     * A function to delete the product from the cloud firestore.
+     * Функция удаления продукта из облачного магазина firestore.
      */
     fun deleteProduct(fragment: ProductsFragment, productId: String) {
 
@@ -326,7 +326,7 @@ class FirestoreClass {
             .document(productId)
             .delete()
             .addOnSuccessListener {
-                // Notify the success result to the base class.
+                // Сообщите об успешном результате базовому классу.
                 fragment.productDeleteSuccess()
             }
             .addOnFailureListener { e ->
@@ -342,18 +342,18 @@ class FirestoreClass {
             }
     }
     fun getDashboardItemsList(fragment: DashboardFragment) {
-        // The collection name for PRODUCTS
+        // Название коллекции для продуктов
         mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
             .get() // Will get the documents snapshots.
             .addOnSuccessListener { document ->
 
-                // Here we get the list of boards in the form of documents.
+                // Здесь мы получаем список досок в виде документов.
                 Log.e(fragment.javaClass.simpleName, document.documents.toString())
 
-                // Here we have created a new instance for Products ArrayList.
+                // Здесь мы создали новый экземпляр для Products ArrayList.
                 val dashboard_productsList: ArrayList<DashboardProduct> = ArrayList()
 
-                // A for loop as per the list of documents to convert them into Products ArrayList.
+                // Цикл for В соответствии со списком документов для преобразования их в Products ArrayList.
                 for (i in document.documents) {
 
                     val dashboard_product = i.toObject(DashboardProduct::class.java)!!
@@ -361,7 +361,7 @@ class FirestoreClass {
                     dashboard_productsList.add(dashboard_product)
                 }
 
-                // Pass the success result to the base fragment.
+                // Передайте результат успеха базовому фрагменту.
                 fragment.successDashboardItemsList(dashboard_productsList)
             }
             .addOnFailureListener { e ->
