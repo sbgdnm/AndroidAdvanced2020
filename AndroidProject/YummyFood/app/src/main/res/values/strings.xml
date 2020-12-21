@@ -106,4 +106,17 @@
 
     //не найдены продукты в dashboard
     <string name="no_dashboard_item_found">Не найдены продукты для заказа на дом!</string>
+
+    //Детали рецепта
+    <string name="title_recipe_details">Детали рецепта</string>
+    <string name="lbl_recipe_description">Описание рецепта:</string>
+    <string name="lbl_recipe_ingredients">Ингредиенты рецепта:</string>
+    <string name="lbl_recipe_details_author">Автор рецепта:</string>
+
+    //Когда открываешь детали продуктов в dahboard
+    <string name="btn_lbl_add_to_cart">Добавить в карту</string>
+    <string name="title_product_details">Детали продукта</string>
+    <string name="lbl_product_description">Описание продукта</string>
+    <string name="lbl_product_details_stock_quantity">Количество продукта</string>
+
 </resources>

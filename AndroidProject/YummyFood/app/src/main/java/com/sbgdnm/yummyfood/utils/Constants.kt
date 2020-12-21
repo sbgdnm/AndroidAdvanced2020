@@ -54,7 +54,8 @@ object Constants {
     const val USER_ID: String = "user_id"
 
 
-
+    //Declare a constant variable for passing the product id to product details screen through intent.
+    const val EXTRA_PRODUCT_ID: String = "extra_product_id"
 
 
 

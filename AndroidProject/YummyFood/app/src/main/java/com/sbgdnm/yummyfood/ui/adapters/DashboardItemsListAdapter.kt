@@ -2,12 +2,16 @@ package com.sbgdnm.yummyfood.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.models.DashboardProduct
+import com.sbgdnm.yummyfood.ui.activities.DashboardProductDetailsActivity
+import com.sbgdnm.yummyfood.ui.activities.RecipeDetailsActivity
+import com.sbgdnm.yummyfood.utils.Constants
 import com.sbgdnm.yummyfood.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_dashboard_layout.view.*
 
@@ -44,6 +48,16 @@ open class DashboardItemsListAdapter(
                 holder.itemView.iv_dashboard_item_image)
             holder.itemView.tv_dashboard_item_title.text = model.title
             holder.itemView.tv_dashboard_item_price.text = "TNG ${model.price}"
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, DashboardProductDetailsActivity::class.java)
+                //Pass the product id to the product details screen through intent.
+                intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
+                context.startActivity(intent)
+            }
+
+
+
         }
     }
 

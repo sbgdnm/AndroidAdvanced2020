@@ -15,6 +15,8 @@ import com.sbgdnm.yummyfood.models.DashboardProduct
 import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.models.User
 import com.sbgdnm.yummyfood.ui.activities.AddMyProductActivity
+import com.sbgdnm.yummyfood.ui.activities.DashboardProductDetailsActivity
+import com.sbgdnm.yummyfood.ui.activities.RecipeDetailsActivity
 import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
@@ -336,7 +338,7 @@ class FirestoreClass {
 
                 Log.e(
                     fragment.requireActivity().javaClass.simpleName,
-                    "Error while deleting the product.",
+                    "Ошибка при удалении продукта!",
                     e
                 )
             }
@@ -367,8 +369,66 @@ class FirestoreClass {
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error which getting the dashboard items list.
                 fragment.hideProgressDialog()
-                Log.e(fragment.javaClass.simpleName, "Error while getting dashboard items list.", e)
+                Log.e(fragment.javaClass.simpleName, "Ошибка при получении списка элиментов в dashboard", e)
             }
     }
 
+    /**
+     * A function to get the product details based on the product id.
+     */
+    fun getProductDetails(activity: RecipeDetailsActivity, productId: String) {
+
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .get() // Will get the document snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the product details in the form of document.
+                Log.e(activity.javaClass.simpleName, document.toString())
+
+                // Convert the snapshot to the object of Product data model class.
+                val product = document.toObject(Product::class.java)!!
+
+                // Notify the success result.
+
+                activity.recipeDetailsSuccess(product)
+
+            }
+            .addOnFailureListener { e ->
+
+                // закрываем загрузку далее ошибка
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Ошибка при получении деталей о продукте", e)
+            }
+    }
+    /**
+     * Продукты в dashboard
+     */
+    fun getDashboardProductDetails(activity: DashboardProductDetailsActivity, productId: String) {
+
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
+            .document(productId)
+            .get() // Will get the document snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the product details in the form of document.
+                Log.e(activity.javaClass.simpleName, document.toString())
+
+                // Convert the snapshot to the object of Product data model class.
+                val product = document.toObject(DashboardProduct::class.java)!!
+
+                // Notify the success result.
+
+                activity.productDetailsSuccess(product)
+
+            }
+            .addOnFailureListener { e ->
+
+                // закрываем загрузку далее ошибка
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Ошибка при получении деталей о продукте", e)
+            }
+    }
 }

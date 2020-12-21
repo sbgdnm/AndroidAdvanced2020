@@ -1,13 +1,16 @@
 package com.sbgdnm.yummyfood.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.models.Product
+import com.sbgdnm.yummyfood.ui.activities.RecipeDetailsActivity
 import com.sbgdnm.yummyfood.ui.fragments.ProductsFragment
+import com.sbgdnm.yummyfood.utils.Constants
 import com.sbgdnm.yummyfood.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 
@@ -56,6 +59,13 @@ open class MyProductsListAdapter(
                 //Теперь давайте вызовем функцию delete ProductsFragment.
                 fragment.deleteProduct(model.product_id)
 
+            }
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, RecipeDetailsActivity::class.java)
+                //Pass the product id to the product details screen through intent.
+                intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
+                context.startActivity(intent)
             }
 
         }
