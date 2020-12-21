@@ -119,4 +119,8 @@
     <string name="lbl_product_description">Описание продукта</string>
     <string name="lbl_product_details_stock_quantity">Количество продукта</string>
 
+    //При успешном добавлении продукта в заказы ,в карту
+    <string name="success_message_item_added_to_cart">Продукт успешно добавлен в заказы.</string>
+    //для перехода в активити добавление в карты
+    <string name="btn_lbl_go_to_cart">Заказать</string>
 </resources>

@@ -54,8 +54,20 @@ object Constants {
     const val USER_ID: String = "user_id"
 
 
-    //Declare a constant variable for passing the product id to product details screen through intent.
+    //постоянная переменная для передачи идентификатора продукта на экран сведений о продукте через intent.
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
+    const val EXTRA_PRODUCT_OWNER_ID: String = "extra_product_owner_id"
+
+    // постоянная переменная для количества корзины по умолчанию.
+    const val DEFAULT_CART_QUANTITY: String = "1"
+
+    //постоянная переменная для сбора элементов корзины.
+    const val CART_ITEMS: String = "cart_items"
+    //постаянная переменная  для идентификатора продукта.
+    const val PRODUCT_ID: String = "product_id"
+
+
+
 
 
 

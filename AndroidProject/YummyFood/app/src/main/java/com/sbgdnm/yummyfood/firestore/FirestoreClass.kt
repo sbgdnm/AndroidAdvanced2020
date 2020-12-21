@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.sbgdnm.yummyfood.models.Cart
 import com.sbgdnm.yummyfood.models.DashboardProduct
 import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.models.User
@@ -343,6 +344,7 @@ class FirestoreClass {
                 )
             }
     }
+    //для получения списка в dashboard
     fun getDashboardItemsList(fragment: DashboardFragment) {
         // Название коллекции для продуктов
         mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
@@ -374,24 +376,23 @@ class FirestoreClass {
     }
 
     /**
-     * A function to get the product details based on the product id.
+     * Функция для получения сведений о продукте на основе id product рецепт
      */
     fun getProductDetails(activity: RecipeDetailsActivity, productId: String) {
 
-        // The collection name for PRODUCTS
+        // Название коллекции для продуктов
         mFireStore.collection(Constants.PRODUCTS)
             .document(productId)
-            .get() // Will get the document snapshots.
+            .get() // получаем документ
             .addOnSuccessListener { document ->
 
-                // Here we get the product details in the form of document.
+                //Здесь мы получаем информацию о продукте в виде документа.
                 Log.e(activity.javaClass.simpleName, document.toString())
 
-                // Convert the snapshot to the object of Product data model class.
+                // Преобразуйте snapshot в объект класса модели данных продукта.
                 val product = document.toObject(Product::class.java)!!
 
-                // Notify the success result.
-
+                //Сообщите об успешном результате.
                 activity.recipeDetailsSuccess(product)
 
             }
@@ -406,21 +407,18 @@ class FirestoreClass {
      * Продукты в dashboard
      */
     fun getDashboardProductDetails(activity: DashboardProductDetailsActivity, productId: String) {
-
-        // The collection name for PRODUCTS
         mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
             .document(productId)
-            .get() // Will get the document snapshots.
+            .get() // получаем документ
             .addOnSuccessListener { document ->
 
-                // Here we get the product details in the form of document.
+                //Здесь мы получаем информацию о продукте в виде документа.
                 Log.e(activity.javaClass.simpleName, document.toString())
 
-                // Convert the snapshot to the object of Product data model class.
+                // Преобразуйте snapshot в объект класса модели данных продукта.
                 val product = document.toObject(DashboardProduct::class.java)!!
 
-                // Notify the success result.
-
+                //Сообщите об успешном результате.
                 activity.productDetailsSuccess(product)
 
             }
@@ -429,6 +427,63 @@ class FirestoreClass {
                 // закрываем загрузку далее ошибка
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Ошибка при получении деталей о продукте", e)
+            }
+    }
+
+    /**
+     * Функция добавления товара в корзину(для заказа) в облачном firestore.
+     */
+    fun addCartItems(activity: DashboardProductDetailsActivity, addToCart: Cart) {
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document()
+            // Здесь userInfo-это поле, а SetOption - это слияние. Это для того, если мы хотим слиться
+            .set(addToCart, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // передайем  результат.
+                activity.addToCartSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating the document for cart item.",
+                    e
+                )
+            }
+    }
+
+
+    /**
+     * Функция проверки того, существует ли товар уже в корзине или нет.
+     */
+    fun checkIfItemExistInCart(activity: DashboardProductDetailsActivity, productId: String) {
+
+        mFireStore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.PRODUCT_ID, productId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+
+                // Если размер документа больше 1, это означает, что товар уже добавлен в корзину.
+                if (document.documents.size > 0) {
+                    activity.productExistsInCart()
+                } else {
+                    activity.hideProgressDialog()
+                }
+
+            }
+            .addOnFailureListener { e ->
+                // Скрыть диалоговое окно выполнения, если есть ошибка.
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while checking the existing cart list.",
+                    e
+                )
             }
     }
 }
