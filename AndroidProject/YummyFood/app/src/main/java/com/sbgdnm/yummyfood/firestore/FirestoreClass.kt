@@ -15,10 +15,7 @@ import com.sbgdnm.yummyfood.models.Cart
 import com.sbgdnm.yummyfood.models.DashboardProduct
 import com.sbgdnm.yummyfood.models.Product
 import com.sbgdnm.yummyfood.models.User
-import com.sbgdnm.yummyfood.ui.activities.AddMyProductActivity
-import com.sbgdnm.yummyfood.ui.activities.DashboardProductDetailsActivity
-import com.sbgdnm.yummyfood.ui.activities.RecipeDetailsActivity
-import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
+import com.sbgdnm.yummyfood.ui.activities.*
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
@@ -486,4 +483,160 @@ class FirestoreClass {
                 )
             }
     }
+
+    /**
+     * A function to get the cart items list from the cloud firestore.
+     */
+    fun getCartList(activity: Activity) {
+        // Название коллекции для продуктов
+        mFireStore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get() // получаем документ
+            .addOnSuccessListener { document ->
+
+                //Здесь мы получаем информацию о продукте в виде документа.
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+
+                // Here we have created a new instance for Cart Items ArrayList.
+                val list: ArrayList<Cart> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Cart Items ArrayList.
+                for (i in document.documents) {
+
+                    val cartItem = i.toObject(Cart::class.java)!!
+                    cartItem.id = i.id
+
+                    list.add(cartItem)
+                }
+                // Notify the success result.
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.successCartItemsList(list)
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                // закрываем загрузку далее ошибка
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e(activity.javaClass.simpleName, "Error while getting the cart list items.", e)
+            }
+    }
+
+    /**
+     * A function to get all the product list from the cloud firestore.
+     *
+     * @param activity The activity is passed as parameter to the function because it is called from activity and need to the success result.
+     */
+    fun getAllProductsList(activity: CartListActivity) {
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the list of boards in the form of documents.
+                Log.e("Products List", document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val productsList: ArrayList<DashboardProduct> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val product = i.toObject(DashboardProduct::class.java)
+                    product!!.product_id = i.id
+
+                    productsList.add(product)
+                }
+
+                //  Pass the success result of the product list to the cart list activity.
+                activity.successProductsListFromFireStore(productsList)
+
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error based on the base class instance.
+                activity.hideProgressDialog()
+                Log.e("Get Product List", "Error while getting all product list.", e)
+            }
+    }
+
+    /**
+     * A function to remove the cart item from the cloud firestore.
+     */
+    fun removeItemFromCart(context: Context, cart_id: String) {
+        // Cart items collection name
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document(cart_id) // cart id
+            .delete()
+            .addOnSuccessListener {
+                // Notify the success result of the removed cart item from the list to the base class.
+                when (context) {
+                    is CartListActivity -> {
+                        context.itemRemovedSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is any error.
+                when (context) {
+                    is CartListActivity -> {
+                        context.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while removing the item from the cart list.",
+                    e
+                )
+            }
+    }
+
+
+    /**
+     * A function to update the cart item in the cloud firestore.
+     *
+     * @param activity activity class.
+     * @param id cart id of the item.
+     * @param itemHashMap to be updated values.
+     */
+    fun updateMyCart(context: Context, cart_id: String, itemHashMap: HashMap<String, Any>) {
+
+        // Cart items collection name
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document(cart_id) // cart id
+            .update(itemHashMap) // A HashMap of fields which are to be updated.
+            .addOnSuccessListener {
+
+                // Notify the success result of the updated cart items list to the base class.
+                when (context) {
+                    is CartListActivity -> {
+                        context.itemUpdateSuccess()
+                    }
+                }
+                // END
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is any error.
+                when (context) {
+                    is CartListActivity -> {
+                        context.hideProgressDialog()
+                    }
+                }
+
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while updating the cart item.",
+                    e
+                )
+            }
+    }
+
+
+
 }

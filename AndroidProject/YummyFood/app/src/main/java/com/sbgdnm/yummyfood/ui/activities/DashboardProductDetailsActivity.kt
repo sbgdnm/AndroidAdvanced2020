@@ -1,10 +1,12 @@
 package com.sbgdnm.yummyfood.ui.activities
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.models.Cart
@@ -95,7 +97,26 @@ class DashboardProductDetailsActivity : BaseActivity() , View.OnClickListener {
         tv_product_details_description.text = product.description
         tv_product_details_stock_quantity.text = product.stock_quantity
 
-        FirestoreClass().checkIfItemExistInCart(this@DashboardProductDetailsActivity, mProductId)
+
+        if(product.stock_quantity.toInt() == 0){
+            // Hide Progress dialog.
+            hideProgressDialog()
+            // Hide the AddToCart button if the item is already in the cart.
+            btn_add_to_cart.visibility = View.GONE
+            tv_product_details_stock_quantity.text = resources.getString(R.string.lbl_out_of_stock)
+
+            tv_product_details_stock_quantity.setTextColor(
+                ContextCompat.getColor(
+                    this@DashboardProductDetailsActivity,
+                    R.color.colorSnackBarError
+                )
+            )
+        }else {
+            FirestoreClass().checkIfItemExistInCart(
+                this@DashboardProductDetailsActivity,
+                mProductId
+            )
+        }
     }
 
     //функция нажатия на баттон добавление в карты
@@ -105,6 +126,9 @@ class DashboardProductDetailsActivity : BaseActivity() , View.OnClickListener {
 
                 R.id.btn_add_to_cart -> {
                     addToCart()
+                }
+                R.id.btn_go_to_cart->{
+                    startActivity(Intent(this@DashboardProductDetailsActivity, CartListActivity::class.java))
                 }
             }
         }

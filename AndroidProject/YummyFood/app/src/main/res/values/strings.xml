@@ -114,7 +114,7 @@
     <string name="lbl_recipe_details_author">Автор рецепта:</string>
 
     //Когда открываешь детали продуктов в dahboard
-    <string name="btn_lbl_add_to_cart">Добавить в карту</string>
+    <string name="btn_lbl_add_to_cart">Добавить в корзину</string>
     <string name="title_product_details">Детали продукта</string>
     <string name="lbl_product_description">Описание продукта</string>
     <string name="lbl_product_details_stock_quantity">Количество продукта</string>
@@ -122,5 +122,16 @@
     //При успешном добавлении продукта в заказы ,в карту
     <string name="success_message_item_added_to_cart">Продукт успешно добавлен в заказы.</string>
     //для перехода в активити добавление в карты
-    <string name="btn_lbl_go_to_cart">Заказать</string>
+    <string name="btn_lbl_go_to_cart">В корзину</string>
+    //мои карты
+    <string name="title_my_cart">Корзина</string>
+    <string name="no_cart_item_found">Ваша корзина пуста</string>
+    <string name="lbl_subtotal">Цена</string>
+    <string name="lbl_shipping_charge">Комиссия</string>
+    <string name="lbl_total_amount">Общая цена</string>
+    <string name="btn_lbl_checkout">Заказать</string>
+    <string name="action_cart">Корзина</string>
+    <string name="lbl_out_of_stock">Нет в наличии</string>
+    <string name="msg_item_removed_successfully">Успешно удалено из корзины.</string>
+    <string name="msg_for_available_stock">Available stock is %1$s!. You can not add more than stock quantity.</string>
 </resources>

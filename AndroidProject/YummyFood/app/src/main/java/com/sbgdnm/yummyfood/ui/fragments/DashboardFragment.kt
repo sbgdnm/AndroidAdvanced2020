@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sbgdnm.yummyfood.R
 import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.models.DashboardProduct
+import com.sbgdnm.yummyfood.ui.activities.CartListActivity
 import com.sbgdnm.yummyfood.ui.activities.SettingsActivity
 import com.sbgdnm.yummyfood.ui.adapters.DashboardItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -45,6 +46,11 @@ class  DashboardFragment : BaseFragment() {
             R.id.action_settings -> {
                 //Запустите SettingActivity по щелчку элемента action.
                 startActivity(Intent(activity, SettingsActivity::class.java))
+                return true
+            }
+            R.id.action_cart -> {
+                //Запустите корзину по щелчку элемента action.
+                startActivity(Intent(activity, CartListActivity::class.java))
                 return true
             }
         }
