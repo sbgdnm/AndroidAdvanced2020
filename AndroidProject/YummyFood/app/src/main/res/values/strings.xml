@@ -175,4 +175,17 @@
     <string name="lbl_payment_mode">Способ оплаты</string>
     <string name="lbl_cash_on_delivery">Наличными</string>
     <string name="btn_lbl_place_order">Заказать</string>
+    //нету заказов
+    <string name="no_orders_placed_yet">У вас еще нету заказов!</string>
+    //детали заказа
+    <string name="title_my_order_details">Детали моего заказа</string>
+    <string name="order_details_lbl">Описание заказа</string>
+    <string name="order_details_lbl_order_id">ID заказа</string>
+    <string name="order_details_lbl_order_date">Дата заказа</string>
+    <string name="order_details_lbl_order_status">Статус заказа</string>
+    <string name="order_status_pending">На рассмотрении</string>
+    <string name="order_details_lbl_shipping_address">Выбранный адрес </string>
+
+    <string name="order_status_in_process">В процессе</string>
+    <string name="order_status_delivered">Доставлен</string>
 </resources>

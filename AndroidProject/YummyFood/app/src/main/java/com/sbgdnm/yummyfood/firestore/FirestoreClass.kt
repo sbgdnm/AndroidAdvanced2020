@@ -17,6 +17,7 @@ import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.RegisterActivity
 import com.sbgdnm.yummyfood.ui.fragments.DashboardFragment
+import com.sbgdnm.yummyfood.ui.fragments.OrdersFragment
 import com.sbgdnm.yummyfood.ui.fragments.ProductsFragment
 import com.sbgdnm.yummyfood.ui.fragments.RecipeFragment
 import com.sbgdnm.yummyfood.utils.Constants
@@ -786,6 +787,81 @@ class FirestoreClass {
                     "Error while placing an order.",
                     e
                 )
+            }
+    }
+
+
+    /**
+     * A function to update all the required details in the cloud firestore after placing the order successfully.
+     */
+    fun updateAllDetails(activity: CheckoutActivity, cartList: ArrayList<Cart>) {
+
+        val writeBatch = mFireStore.batch()
+
+        // Here we will update the product stock in the products collection based to cart quantity.
+        for (cart in cartList) {
+
+            val productHashMap = HashMap<String, Any>()
+
+            productHashMap[Constants.STOCK_QUANTITY] =
+                (cart.stock_quantity.toInt() - cart.cart_quantity.toInt()).toString()
+
+            val documentReference = mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
+                .document(cart.product_id)
+
+            writeBatch.update(documentReference, productHashMap)
+        }
+
+        // Delete the list of cart items
+        for (cart in cartList) {
+
+            val documentReference = mFireStore.collection(Constants.CART_ITEMS)
+                .document(cart.id)
+            writeBatch.delete(documentReference)
+        }
+
+        writeBatch.commit().addOnSuccessListener {
+
+            //  Finally after performing all the operation notify the user with the success result.
+            activity.allDetailsUpdatedSuccessfully()
+
+        }.addOnFailureListener { e ->
+            // Here call a function of base activity for transferring the result to it.
+            activity.hideProgressDialog()
+
+            Log.e(activity.javaClass.simpleName, "Error while updating all the details after order placed.", e)
+        }
+    }
+
+    /**
+     * A function to get the list of orders from cloud firestore.
+     */
+    fun getMyOrdersList(fragment: OrdersFragment) {
+        mFireStore.collection(Constants.ORDERS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+                Log.e(fragment.javaClass.simpleName, document.documents.toString())
+                val list: ArrayList<Order> = ArrayList()
+
+                for (i in document.documents) {
+
+                    val orderItem = i.toObject(Order::class.java)!!
+                    orderItem.id = i.id
+
+                    list.add(orderItem)
+                }
+
+                //  Notify the success result to base class.
+                fragment.populateOrdersListInUI(list)
+
+            }
+            .addOnFailureListener { e ->
+                // Here call a function of base activity for transferring the result to it.
+
+                fragment.hideProgressDialog()
+
+                Log.e(fragment.javaClass.simpleName, "Error while getting the orders list.", e)
             }
     }
 }

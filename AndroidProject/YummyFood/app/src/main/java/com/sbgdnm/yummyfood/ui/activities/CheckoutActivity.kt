@@ -180,6 +180,7 @@ class CheckoutActivity : BaseActivity() {
             mSubTotal.toString(),
             "% 10.0",
             mTotalAmount.toString(),
+            System.currentTimeMillis()
         )
 
 
@@ -191,7 +192,17 @@ class CheckoutActivity : BaseActivity() {
      * A function to notify the success result of the order placed.
      */
     fun orderPlacedSuccess() {
+        //Move the below code to "allDetailsUpdatedSuccessfully" function and call the function to update the details after placing the order successfully.
+        FirestoreClass().updateAllDetails(this@CheckoutActivity, mCartItemsList)
+    }
 
+    /**
+     * A function to notify the success result after updating all the required details.
+     */
+    fun allDetailsUpdatedSuccessfully() {
+
+        //Move the piece of code from OrderPlaceSuccess to here.
+        // Hide the progress dialog.
         hideProgressDialog()
 
         Toast.makeText(this@CheckoutActivity, "Ваш заказ успешно принят.", Toast.LENGTH_SHORT)
@@ -201,5 +212,6 @@ class CheckoutActivity : BaseActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+        // END
     }
 }
