@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_recipe_details.*
 
 class RecipeDetailsActivity : BaseActivity() {
 
-    // A global variable for product id.
+    // Глобальная переменная для идентификатора продукта.
     private var mProductId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class RecipeDetailsActivity : BaseActivity() {
         setupActionBar()
 
 
-        // Get the product id through the intent extra and print it in the log.
+        // Получите идентификатор продукта через intent extra
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId =
                 intent.getStringExtra(Constants.EXTRA_PRODUCT_ID)!!
@@ -45,27 +45,26 @@ class RecipeDetailsActivity : BaseActivity() {
     }
 
     /**
-     * A function to call the firestore class function that will get the product details from cloud firestore based on the product id.
+     * Функция для вызова функции класса firestore, которая будет получать сведения о продукте из cloud firestore на основе идентификатора продукта.
      */
     private fun getProductDetails() {
 
-        // Show the product dialog
+        // загрузка
         showProgressDialog(resources.getString(R.string.please_wait))
-
-        // Call the function of FirestoreClass to get the product details.
+        // Вызовите функцию FirestoreClass, чтобы получить подробную информацию о продукте.
         FirestoreClass().getProductDetails(this@RecipeDetailsActivity, mProductId)
     }
 
 
     /**
-     * A function to notify the success result of the product details based on the product id.
+     * Функция уведомления об успешном результате получения сведений о продукте на основе идентификатора продукта.
      */
     fun recipeDetailsSuccess(product: Product) {
 
-        // Hide Progress dialog.
+        // закрыть
         hideProgressDialog()
 
-        // Populate the product details in the UI.
+        // Заполните сведения о продукте в пользовательском интерфейсе.
         GlideLoader(this@RecipeDetailsActivity).loadProductPicture(
             product.image,
             iv_product_detail_image

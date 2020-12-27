@@ -24,12 +24,6 @@ open class MyProductsListAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    /**
-     * Раздувает представления элементов, которые разработаны в файле xml-макета
-     *
-     * создайте новый
-     * {@link ViewHolder} и инициализирует некоторые частные поля для использования RecyclerView.
-     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
             LayoutInflater.from(context).inflate(
@@ -40,12 +34,7 @@ open class MyProductsListAdapter(
         )
     }
 
-    /**
-     * Связывает каждый элемент в ArrayList с представлением
-     *
-     * Вызывается, когда RecyclerView нуждается в новом {@link ViewHolder} данного типа для представления элемента.
-     *
-     */
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
         if (holder is MyViewHolder) {
@@ -71,9 +60,7 @@ open class MyProductsListAdapter(
         }
     }
 
-    /**
-     * Возвращает количество элементов в списке
-     */
+
     override fun getItemCount(): Int {
         return list.size
     }

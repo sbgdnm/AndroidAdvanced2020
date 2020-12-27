@@ -13,13 +13,12 @@ object Constants {
     const val USERS: String = "users"
     const val PRODUCTS: String = "products"
     const val DASHBOARD_PRODUCTS: String = "dashboard"
+    const val ORDERS: String = "orders"
 
     //постоянные переменные для shared preferences и Username Key
     const val MY_YF_PREFERENCES: String = "MyYFPrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
 
-    // Intent extra constants.
-    const val EXTRA_USER_DETAILS: String = "extra_user_details"
 
 
     //Уникальный код для запроса разрешения на чтение хранилища с помощью этого мы будем проверять и идентифицировать в методе onRequestPermissionsResult в base activity
@@ -66,11 +65,18 @@ object Constants {
     //постаянная переменная  для идентификатора продукта.
     const val PRODUCT_ID: String = "product_id"
 
-
-
-
-
-
+    // constants for the address types.
+    const val HOME: String = "Дом"
+    const val OFFICE: String = "Офис"
+    const val OTHER: String = "Другое"
+    // constants for the addresses collection.
+    const val ADDRESSES: String = "addresses"
+    //  constant value to pass the address details through intent.
+    const val EXTRA_ADDRESS_DETAILS: String = "AddressDetails"
+    const val EXTRA_USER_DETAILS: String = "extra_user_details"
+    const val EXTRA_SELECT_ADDRESS: String = "extra_select_address"
+    const val ADD_ADDRESS_REQUEST_CODE: Int = 121
+    const val EXTRA_SELECTED_ADDRESS: String = "extra_selected_address"
 
     //функция для запроса выбрать изображение с помощью уникального кода.(Функция выбора изображения профиля пользователя из памяти телефона.)
     fun showImageChooser(activity: Activity) {

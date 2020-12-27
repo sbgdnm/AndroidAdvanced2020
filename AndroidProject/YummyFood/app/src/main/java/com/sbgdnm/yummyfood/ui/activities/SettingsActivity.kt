@@ -23,13 +23,14 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Call the function to setup action bar.
         setupActionBar()
 
         //Назначьте событие onclick редактируемому тексту
         tv_edit.setOnClickListener(this@SettingsActivity)
         // Назначить событие onclick для кнопки "Выход".
         btn_logout.setOnClickListener(this@SettingsActivity)
+        //сабытие для адресса
+        ll_address.setOnClickListener(this@SettingsActivity)
     }
     //Переопределите функцию onResume и вызовите функцию getUserDetails init.
     override fun onResume() {
@@ -39,10 +40,6 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
     }
 
 
-    // Create a function to setup action bar.
-    /**
-     * A function for actionBar Setup.
-     */
     private fun setupActionBar() {
         setSupportActionBar(toolbar_settings_activity)
 
@@ -60,7 +57,6 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
      * Функция для получения сведений о пользователе из firestore.
      */
     private fun getUserDetails() {
-        // Show the progress dialog
         showProgressDialog(resources.getString(R.string.please_wait))
         // Вызовите функцию класса Firestore, чтобы получить сведения о пользователе из уже созданного firestore.
         FirestoreClass().getUserDetails(this@SettingsActivity)
@@ -104,6 +100,11 @@ class SettingsActivity : BaseActivity() , View.OnClickListener{
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
+                }
+                //вызоа списка адрессов
+                R.id.ll_address -> {
+                    val intent = Intent(this@SettingsActivity, AddressListActivity::class.java)
+                    startActivity(intent)
                 }
 
             }

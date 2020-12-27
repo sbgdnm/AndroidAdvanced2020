@@ -57,7 +57,7 @@ open class RecipeItemsListAdapter(
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, RecipeDetailsActivity::class.java)
-                //Pass the product id to the product details screen through intent.
+                //Передаем идентификатор продукта через intent.
                 intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
                 context.startActivity(intent)
             }

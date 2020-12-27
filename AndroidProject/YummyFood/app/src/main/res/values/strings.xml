@@ -134,4 +134,45 @@
     <string name="lbl_out_of_stock">Нет в наличии</string>
     <string name="msg_item_removed_successfully">Успешно удалено из корзины.</string>
     <string name="msg_for_available_stock">Available stock is %1$s!. You can not add more than stock quantity.</string>
+    //список адресов
+    <string name="title_address_list">Мои адресы</string>
+    <string name="no_address_found">Нету адресов!</string>
+    <string name="lbL_add_address">Добавить адрес</string>
+    //добавление и изменение адреса
+    <string name="title_add_address">Добавить адрес</string>
+    <string name="hint_full_name">Полное имя</string>
+    <string name="hint_phone_number">Номер телефона</string>
+    <string name="hint_address">Адрес</string>
+    <string name="hint_zip_code">ZipCode</string>
+    <string name="hint_additional_note">Дополнительная информация</string>
+    <string name="hint_other_details">Другие подробности</string>
+    <string name="lbl_home">Дом</string>
+    <string name="lbl_office">Офис</string>
+    <string name="lbl_other">Другое</string>
+    <string name="btn_lbl_address_submit">Сохранить</string>
+
+    //проверка целостности полей при вводе адреса
+    <string name="err_msg_please_enter_full_name">Пожалуйста, введите полноме имя.</string>
+    <string name="err_msg_please_enter_phone_number">Пожалуйста, введите номер телефона.</string>
+    <string name="err_msg_please_enter_address">Пожалуйста, введите адрес.</string>
+    <string name="err_msg_please_enter_zip_code">Пожалуйста, введите zip-code.</string>
+    <string name="err_msg_please_enter_other_details">Пожалуйста, введите дополнителную информацию.</string>
+    //Добавление адреса
+    <string name="err_your_address_added_successfully">Ваш адрес успешно добавлен.</string>
+    //изменение адреса
+    <string name="title_edit_address">Изменение адреса</string>
+    <string name="btn_lbl_update">Обнавить</string>
+    <string name="msg_your_address_updated_successfully">Ваш адрес успешно обнавлен.</string>
+    <string name="err_your_address_deleted_successfully">Ваш адрес успешно удален.</string>
+
+    //Для заказов при уже выборе продукта
+    <string name="title_select_address">Выбрать адресс</string>
+    //чек
+    <string name="title_checkout">ЧЕКК</string>
+    <string name="checkout_lbl_product_items">Список продуктов</string>
+    <string name="checkout_lbl_selected_address">Выбраный адрес</string>
+    <string name="checkout_lbl_items_receipt">Items Receipt</string>
+    <string name="lbl_payment_mode">Способ оплаты</string>
+    <string name="lbl_cash_on_delivery">Наличными</string>
+    <string name="btn_lbl_place_order">Заказать</string>
 </resources>

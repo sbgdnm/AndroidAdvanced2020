@@ -11,10 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.sbgdnm.yummyfood.models.Cart
-import com.sbgdnm.yummyfood.models.DashboardProduct
-import com.sbgdnm.yummyfood.models.Product
-import com.sbgdnm.yummyfood.models.User
+import com.sbgdnm.yummyfood.models.*
 import com.sbgdnm.yummyfood.ui.activities.*
 import com.sbgdnm.yummyfood.ui.activities.auth.UserProfileActivity
 import com.sbgdnm.yummyfood.ui.activities.auth.LoginActivity
@@ -485,7 +482,7 @@ class FirestoreClass {
     }
 
     /**
-     * A function to get the cart items list from the cloud firestore.
+     * Функция получения списка товаров корзины из  firestore.
      */
     fun getCartList(activity: Activity) {
         // Название коллекции для продуктов
@@ -497,10 +494,9 @@ class FirestoreClass {
                 //Здесь мы получаем информацию о продукте в виде документа.
                 Log.e(activity.javaClass.simpleName, document.documents.toString())
 
-                // Here we have created a new instance for Cart Items ArrayList.
+                // Здесь мы создали новый экземпляр для ArrayList элементов cart.
                 val list: ArrayList<Cart> = ArrayList()
 
-                // A for loop as per the list of documents to convert them into Cart Items ArrayList.
                 for (i in document.documents) {
 
                     val cartItem = i.toObject(Cart::class.java)!!
@@ -508,9 +504,12 @@ class FirestoreClass {
 
                     list.add(cartItem)
                 }
-                // Notify the success result.
+                // Сообщаем об успешном результате.
                 when (activity) {
                     is CartListActivity -> {
+                        activity.successCartItemsList(list)
+                    }
+                    is CheckoutActivity -> {
                         activity.successCartItemsList(list)
                     }
                 }
@@ -521,6 +520,9 @@ class FirestoreClass {
                     is CartListActivity -> {
                         activity.hideProgressDialog()
                     }
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
                 }
 
                 Log.e(activity.javaClass.simpleName, "Error while getting the cart list items.", e)
@@ -528,23 +530,22 @@ class FirestoreClass {
     }
 
     /**
-     * A function to get all the product list from the cloud firestore.
+     * Функция для получения всего списка продуктов из  firestore.
      *
-     * @param activity The activity is passed as parameter to the function because it is called from activity and need to the success result.
+     * @param activity activity передается в качестве параметра функции, потому что оно вызывается из activity .
      */
-    fun getAllProductsList(activity: CartListActivity) {
-        // The collection name for PRODUCTS
+    fun getAllProductsList(activity: Activity) {
+        // Название коллекции для продуктов
         mFireStore.collection(Constants.DASHBOARD_PRODUCTS)
-            .get() // Will get the documents snapshots.
+            .get() //  получаем документ
             .addOnSuccessListener { document ->
 
-                // Here we get the list of boards in the form of documents.
+                //Здесь мы получаем информацию о продукте в виде документа.
                 Log.e("Products List", document.documents.toString())
 
-                // Here we have created a new instance for Products ArrayList.
+                // Здесь мы создали новый экземпляр для Products ArrayList.
                 val productsList: ArrayList<DashboardProduct> = ArrayList()
 
-                // A for loop as per the list of documents to convert them into Products ArrayList.
                 for (i in document.documents) {
 
                     val product = i.toObject(DashboardProduct::class.java)
@@ -553,27 +554,46 @@ class FirestoreClass {
                     productsList.add(product)
                 }
 
-                //  Pass the success result of the product list to the cart list activity.
-                activity.successProductsListFromFireStore(productsList)
+                when (activity) {
+                    is CartListActivity -> {
+                        //  Передайте результат успеха списка продуктов в activity cart list.
+                        activity.successProductsListFromFireStore(productsList)
+                    }
+
+                    //  Notify the success result of latest cart items list to checkout screen.
+                    is CheckoutActivity -> {
+                        //  Передайте результат успеха списка продуктов в activity cart list.
+                        activity.successProductsListFromFireStore(productsList)
+                    }
+                }
+
 
             }
             .addOnFailureListener { e ->
-                // Hide the progress dialog if there is any error based on the base class instance.
-                activity.hideProgressDialog()
+                // закрываем загрузку далее ошибка
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
                 Log.e("Get Product List", "Error while getting all product list.", e)
             }
     }
 
     /**
-     * A function to remove the cart item from the cloud firestore.
+     * Функция удаления элемента корзины из  firestore.
      */
     fun removeItemFromCart(context: Context, cart_id: String) {
-        // Cart items collection name
+        // Название коллекции
         mFireStore.collection(Constants.CART_ITEMS)
             .document(cart_id) // cart id
             .delete()
             .addOnSuccessListener {
-                // Notify the success result of the removed cart item from the list to the base class.
+                // Уведомить об успешном результате удаленного элемента корзины из списка в базовый класс.
                 when (context) {
                     is CartListActivity -> {
                         context.itemRemovedSuccess()
@@ -598,31 +618,29 @@ class FirestoreClass {
 
 
     /**
-     * A function to update the cart item in the cloud firestore.
+     * Функция обновления элемента корзины в  firestore.
      *
      * @param activity activity class.
-     * @param id cart id of the item.
-     * @param itemHashMap to be updated values.
+     * @param id cart id в списке.
+     * @param itemHashMap значений обновлении.
      */
     fun updateMyCart(context: Context, cart_id: String, itemHashMap: HashMap<String, Any>) {
 
-        // Cart items collection name
+        //Название коллекции
         mFireStore.collection(Constants.CART_ITEMS)
             .document(cart_id) // cart id
-            .update(itemHashMap) // A HashMap of fields which are to be updated.
+            .update(itemHashMap) // Хэш-карта полей, которые должны быть обновлены.
             .addOnSuccessListener {
 
-                // Notify the success result of the updated cart items list to the base class.
+                // Уведомить базовый класс об успешном результате обновления списка элементов корзины.
                 when (context) {
                     is CartListActivity -> {
                         context.itemUpdateSuccess()
                     }
                 }
-                // END
+
             }
             .addOnFailureListener { e ->
-
-                // Hide the progress dialog if there is any error.
                 when (context) {
                     is CartListActivity -> {
                         context.hideProgressDialog()
@@ -636,7 +654,138 @@ class FirestoreClass {
                 )
             }
     }
+    /**
+     *Функция добавления адреса в firestore.
+     *
+     * @param activity
+     * @param addressInfo
+     */
+    fun addAddress(activity: AddEditAddressActivity, addressInfo: Address) {
 
+        // Название коллекции
+        mFireStore.collection(Constants.ADDRESSES)
+            .document()
+            // Здесь addressInfo-это поле, а SetOption - это слияние. Это для того, если мы хотим слиться
+            .set(addressInfo, SetOptions.merge())
+            .addOnSuccessListener {
 
+                // Здесь вызывается функция базовой активности для передачи ей результата.
+                activity.addUpdateAddressSuccess()
 
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while adding the address.",
+                    e
+                )
+            }
+    }
+
+    /**
+     *Функция для получения списка адресов из firestore.
+     *
+     * @param activity
+     */
+    fun getAddressesList(activity: AddressListActivity) {
+        // Название коллекции
+        mFireStore.collection(Constants.ADDRESSES)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get() // получаем документ
+            .addOnSuccessListener { document ->
+                // Здесь мы получаем список  в виде документов.
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+                // Здесь мы создали новый экземпляр для address ArrayList.
+                val addressList: ArrayList<Address> = ArrayList()
+
+                for (i in document.documents) {
+
+                    val address = i.toObject(Address::class.java)!!
+                    address.id = i.id
+
+                    addressList.add(address)
+                }
+
+                activity.successAddressListFromFirestore(addressList)
+
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while getting the address list.", e)
+            }
+
+    }
+
+    /**
+     * Функция обновить существующие решения в firestore.
+     */
+    fun updateAddress(activity: AddEditAddressActivity, addressInfo: Address, addressId: String) {
+
+        mFireStore.collection(Constants.ADDRESSES)
+            .document(addressId)
+            //Здесь addressInfo-это поле, а SetOption - это слияние. Это для того, если мы хотим слиться
+            .set(addressInfo, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Здесь вызывается функция базовой активности для передачи ей результата.
+                activity.addUpdateAddressSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while updating the Address.",
+                    e
+                )
+            }
+    }
+
+    /**
+     * Функция удаления существующего адреса из firestore.
+     */
+    fun deleteAddress(activity: AddressListActivity, addressId: String) {
+
+        mFireStore.collection(Constants.ADDRESSES)
+            .document(addressId)
+            .delete()
+            .addOnSuccessListener {
+                // Здесь вызывается функция базовой активности для передачи ей результата.
+                activity.deleteAddressSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while deleting the address.",
+                    e
+                )
+            }
+    }
+
+    /**
+     * A function to place an order of the user in the cloud firestore.
+     */
+    fun placeOrder(activity: CheckoutActivity, order: Order) {
+
+        mFireStore.collection(Constants.ORDERS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(order, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Here call a function of base activity for transferring the result to it.
+                activity.orderPlacedSuccess()
+
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error.
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while placing an order.",
+                    e
+                )
+            }
+    }
 }

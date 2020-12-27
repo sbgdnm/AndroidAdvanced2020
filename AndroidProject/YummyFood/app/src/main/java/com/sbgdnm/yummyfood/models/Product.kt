@@ -3,9 +3,7 @@ package com.sbgdnm.yummyfood.models
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-/**
- * Класс модели данных для продукта с обязательными полями.
- */
+
 @Parcelize
 data class Product(
     val user_id: String = "",

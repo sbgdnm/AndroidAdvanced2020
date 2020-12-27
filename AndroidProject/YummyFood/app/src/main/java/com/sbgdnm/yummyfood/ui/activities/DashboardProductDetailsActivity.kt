@@ -69,11 +69,9 @@ class DashboardProductDetailsActivity : BaseActivity() , View.OnClickListener {
      * Функция для вызова функции класса firestore, которая будет получать сведения о продукте из cloud firestore на основе идентификатора продукта.
      */
     private fun getProductDetails() {
-
-        // Show the product dialog
+        // Показать диалоговое окно продукта
         showProgressDialog(resources.getString(R.string.please_wait))
-
-        // Call the function of FirestoreClass to get the product details.
+        // Вызовите функцию FirestoreClass, чтобы получить подробную информацию о продукте.
         FirestoreClass().getDashboardProductDetails(this@DashboardProductDetailsActivity, mProductId)
     }
 
@@ -99,9 +97,9 @@ class DashboardProductDetailsActivity : BaseActivity() , View.OnClickListener {
 
 
         if(product.stock_quantity.toInt() == 0){
-            // Hide Progress dialog.
+            // закрыть загрузку
             hideProgressDialog()
-            // Hide the AddToCart button if the item is already in the cart.
+            // Скройте кнопку AddToCart, если товар уже находится в корзине.
             btn_add_to_cart.visibility = View.GONE
             tv_product_details_stock_quantity.text = resources.getString(R.string.lbl_out_of_stock)
 

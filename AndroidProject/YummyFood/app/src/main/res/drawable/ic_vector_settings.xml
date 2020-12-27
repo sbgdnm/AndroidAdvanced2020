@@ -1,5 +1,4 @@
-<!--TODO Step 2: Add the Settings vector icon.-->
-<!--START-->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
@@ -12,4 +11,3 @@
         android:fillColor="#FFFFFF"
         android:pathData="m256,367.4c-61.427,0 -111.4,-49.974 -111.4,-111.4s49.973,-111.4 111.4,-111.4 111.4,49.974 111.4,111.4 -49.973,111.4 -111.4,111.4zM256,174.6c-44.885,0 -81.4,36.516 -81.4,81.4s36.516,81.4 81.4,81.4 81.4,-36.516 81.4,-81.4 -36.515,-81.4 -81.4,-81.4z" />
 </vector>
-    <!--END-->

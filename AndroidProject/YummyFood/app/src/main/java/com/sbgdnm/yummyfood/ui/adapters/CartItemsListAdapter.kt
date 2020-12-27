@@ -16,20 +16,13 @@ import com.sbgdnm.yummyfood.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_cart_layout.view.*
 
 
-/**
- * A adapter class for dashboard items list.
- */
 open class CartItemsListAdapter(
     private val context: Context,
-    private var list: ArrayList<Cart>
+    private var list: ArrayList<Cart>,
+    private val updateCartItems: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    /**
-     * Inflates the item views which is designed in xml layout file
-     *
-     * create a new
-     * {@link ViewHolder} and initializes some private fields to be used by RecyclerView.
-     */
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return MyViewHolder(
@@ -41,16 +34,7 @@ open class CartItemsListAdapter(
         )
     }
 
-    /**
-     * Binds each item in the ArrayList to a view
-     *
-     * Called when RecyclerView needs a new {@link ViewHolder} of the given type to represent
-     * an item.
-     *
-     * This new ViewHolder should be constructed with a new View that can represent the items
-     * of the given type. You can either create a new View manually or inflate it from an XML
-     * layout file.
-     */
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
@@ -63,10 +47,17 @@ open class CartItemsListAdapter(
             holder.itemView.tv_cart_item_price.text = "TNG ${model.price}"
             holder.itemView.tv_cart_quantity.text = model.cart_quantity
 
-            // Show the text Out of Stock when cart quantity is zero.
+            // Покажите текст "Нет в наличии", когда количество корзины равно нулю.
             if (model.cart_quantity == "0") {
                 holder.itemView.ib_remove_cart_item.visibility = View.GONE
                 holder.itemView.ib_add_cart_item.visibility = View.GONE
+
+                // Update the UI components as per the param.
+                if (updateCartItems) {
+                    holder.itemView.ib_delete_cart_item.visibility = View.VISIBLE
+                } else {
+                    holder.itemView.ib_delete_cart_item.visibility = View.GONE
+                }
 
                 holder.itemView.tv_cart_quantity.text =
                     context.resources.getString(R.string.lbl_out_of_stock)
@@ -78,8 +69,17 @@ open class CartItemsListAdapter(
                     )
                 )
             } else {
-                holder.itemView.ib_remove_cart_item.visibility = View.VISIBLE
-                holder.itemView.ib_add_cart_item.visibility = View.VISIBLE
+                //  Update the UI components as per the param.
+                if (updateCartItems) {
+                    holder.itemView.ib_remove_cart_item.visibility = View.VISIBLE
+                    holder.itemView.ib_add_cart_item.visibility = View.VISIBLE
+                    holder.itemView.ib_delete_cart_item.visibility = View.VISIBLE
+                } else {
+
+                    holder.itemView.ib_remove_cart_item.visibility = View.GONE
+                    holder.itemView.ib_add_cart_item.visibility = View.GONE
+                    holder.itemView.ib_delete_cart_item.visibility = View.GONE
+                }
 
                 holder.itemView.tv_cart_quantity.setTextColor(
                     ContextCompat.getColor(
@@ -90,10 +90,10 @@ open class CartItemsListAdapter(
             }
 
 
-            //  Assign the onclick event to the ib_delete_cart_item.
+            // Назначьте событие onclick элементу ib_delete_cart_item.
             holder.itemView.ib_delete_cart_item.setOnClickListener {
 
-                // Call the firestore class function to remove the item from cloud firestore.
+                // Вызовите функцию класса firestore, чтобы удалить элемент из cloud firestore.
                 when (context) {
                     is CartListActivity -> {
                         context.showProgressDialog(context.resources.getString(R.string.please_wait))
@@ -106,9 +106,10 @@ open class CartItemsListAdapter(
 
 
 
-            //  Assign the click event to the ib_remove_cart_item.
+            //  Назначьте событие click элементу ib_remove_cart_item.
             holder.itemView.ib_remove_cart_item.setOnClickListener {
-                //  Call the update or remove function of firestore class based on the cart quantity.
+                //  Вызовите функцию обновления или удаления класса firestore в зависимости от количества корзины.
+                //т.е. если там один элемент то при его удалинии показывается что нет в наличии если много то update
                 if (model.cart_quantity == "1") {
                     FirestoreClass().removeItemFromCart(context, model.id)
                 } else {
@@ -119,7 +120,7 @@ open class CartItemsListAdapter(
 
                     itemHashMap[Constants.CART_QUANTITY] = (cartQuantity - 1).toString()
 
-                    // Show the progress dialog.
+                    // загрузка
                     if (context is CartListActivity) {
                         context.showProgressDialog(context.resources.getString(R.string.please_wait))
                     }
@@ -129,10 +130,9 @@ open class CartItemsListAdapter(
             }
 
 
-            // Assign the click event to the ib_add_cart_item.
+            // Назначьте событие click элементу ib_add_cart_item.
             holder.itemView.ib_add_cart_item.setOnClickListener {
 
-                // Call the update function of firestore class based on the cart quantity.
                 val cartQuantity: Int = model.cart_quantity.toInt()
 
                 if (cartQuantity < model.stock_quantity.toInt()) {
@@ -141,7 +141,6 @@ open class CartItemsListAdapter(
 
                     itemHashMap[Constants.CART_QUANTITY] = (cartQuantity + 1).toString()
 
-                    // Show the progress dialog.
                     if (context is CartListActivity) {
                         context.showProgressDialog(context.resources.getString(R.string.please_wait))
                     }
@@ -165,15 +164,9 @@ open class CartItemsListAdapter(
         }
     }
 
-    /**
-     * Gets the number of items in the list
-     */
     override fun getItemCount(): Int {
         return list.size
     }
 
-    /**
-     * A ViewHolder describes an item view and metadata about its place within the RecyclerView.
-     */
     private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }

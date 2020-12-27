@@ -1,6 +1,7 @@
 package com.sbgdnm.yummyfood.ui.activities
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,18 +12,26 @@ import com.sbgdnm.yummyfood.firestore.FirestoreClass
 import com.sbgdnm.yummyfood.models.Cart
 import com.sbgdnm.yummyfood.models.DashboardProduct
 import com.sbgdnm.yummyfood.ui.adapters.CartItemsListAdapter
+import com.sbgdnm.yummyfood.utils.Constants
 import kotlinx.android.synthetic.main.activity_cart_list.*
 
 class CartListActivity : BaseActivity() {
-    //  global variable for the product list.
+    // глобальная переменная для списка продуктов.
     private lateinit var mProductsList: ArrayList<DashboardProduct>
-    // A global variable for the cart list items.
+    // Глобальная переменная для элементов списка корзины.
     private lateinit var mCartListItems: ArrayList<Cart>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart_list)
         setupActionBar()
+
+        // Assign the click event to the checkout button and proceed to the next screen.
+        btn_checkout.setOnClickListener {
+            val intent = Intent(this@CartListActivity, AddressListActivity::class.java)
+            intent.putExtra(Constants.EXTRA_SELECT_ADDRESS, true)
+            startActivity(intent)
+        }
 
     }
     //для того чтоб вернуться назад
@@ -40,21 +49,18 @@ class CartListActivity : BaseActivity() {
     }
 
 
-    //  Override the onResume function and call the function to getCartItemsList.
     override fun onResume() {
         super.onResume()
         getProductList()
     }
 
-    // function to get the list of cart items in the activity.
+    // функция для получения списка элементов корзины в действии.
     private fun getCartItemsList() {
-        // Show the progress dialog.
-     //  showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getCartList(this@CartListActivity)
     }
 
     /**
-     * A function to get product list to compare the current stock with the cart items.
+     * Функция получения списка товаров для сравнения текущего запаса с товарами корзины.
      */
     private fun getProductList() {
 
@@ -64,13 +70,14 @@ class CartListActivity : BaseActivity() {
         FirestoreClass().getAllProductsList(this@CartListActivity)
     }
     /**
-     * A function to notify the success result of the cart items list from cloud firestore.
+     * Функция уведомления об успешном результате списка товаров корзины из cloud firestore.
      */
     fun successCartItemsList(cartList: ArrayList<Cart>) {
-        // Hide progress dialog.
+        // закрыть загрузку
         hideProgressDialog()
 
-        //Compare the product id of product list with product id of cart items list and update the stock quantity in the cart items list from the latest product list.
+        //Сравните идентификатор продукта списка продуктов с идентификатором продукта списка товаров корзины
+        // и обновите количество запасов в списке товаров корзины из последнего списка продуктов.
         for (product in mProductsList) {
             for (cart in cartList) {
                 if (product.product_id == cart.product_id) {
@@ -96,7 +103,7 @@ class CartListActivity : BaseActivity() {
             rv_cart_items_list.layoutManager = LinearLayoutManager(this@CartListActivity)
             rv_cart_items_list.setHasFixedSize(true)
 
-            val cartListAdapter = CartItemsListAdapter(this@CartListActivity, cartList)
+            val cartListAdapter = CartItemsListAdapter(this@CartListActivity,  mCartListItems ,true )
             rv_cart_items_list.adapter = cartListAdapter
 
             var subTotal: Double = 0.0
@@ -113,7 +120,8 @@ class CartListActivity : BaseActivity() {
             }
 
             tv_sub_total.text = "TNG $subTotal"
-            // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
+            // Здесь мы сохранили стоимость доставки фиксированной как %10, но в вашем случае это может быть Кэри.
+            // Кроме того, это зависит от местоположения и общей суммы.
             tv_shipping_charge.text = "% 10"
 
             if (subTotal > 0) {
@@ -132,20 +140,21 @@ class CartListActivity : BaseActivity() {
         }
     }
     /**
-     * A function to get the success result of product list.
+     * Функция для получения результата успеха списка продуктов.
      *
      * @param productsList
      */
     fun successProductsListFromFireStore(productsList: ArrayList<DashboardProduct>) {
-        //Initialize the product list global variable once we have the product list.
+        //Инициализируйте глобальную переменную списка продуктов,
+        // как только у нас будет список продуктов.
         mProductsList = productsList
-        // Once we have the latest product list from cloud firestore get the cart items list from cloud firestore.
+        // Как только у нас будет последний список продуктов из cloud firestore, получите список товаров корзины из cloud firestore.
         getCartItemsList()
 
     }
 
     /**
-     * A function to notify the user about the item removed from the cart list.
+     * Функция уведомления Пользователя о товаре, удаленном из списка корзины.
      */
     fun itemRemovedSuccess() {
         hideProgressDialog()
@@ -160,12 +169,10 @@ class CartListActivity : BaseActivity() {
     }
 
     /**
-     * A function to notify the user about the item quantity updated in the cart list.
+     * Функция уведомления Пользователя об обновленном количестве товара в списке корзины.
      */
     fun itemUpdateSuccess() {
-
         hideProgressDialog()
-
         getCartItemsList()
     }
 }
