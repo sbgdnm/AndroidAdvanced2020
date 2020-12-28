@@ -18,7 +18,7 @@
     <string name="et_hint_confirm_password">Потвердите пароль</string>
 
     <string name="i_agree_to_the_terms_and_condition">Я согласен с <u> Условиями &amp; Правилами </u></string>
-    <string name="btn_lbl_register">Регистарция</string>
+    <string name="btn_lbl_register">Регистрация</string>
     <string name="already_have_an_account">У вас уже есть аккаунт?</string>
     <string name="login"><u>Войти</u></string>
 

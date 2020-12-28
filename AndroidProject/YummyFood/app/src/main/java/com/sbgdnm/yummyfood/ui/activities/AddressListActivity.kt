@@ -67,7 +67,6 @@ class AddressListActivity : BaseActivity() {
      * Функция для получения списка адресов из cloud firestore.
      */
     private fun getAddressList() {
-        // Show the progress dialog.
         showProgressDialog(resources.getString(R.string.please_wait))
 
         FirestoreClass().getAddressesList(this@AddressListActivity)
@@ -100,7 +99,7 @@ class AddressListActivity : BaseActivity() {
             val addressAdapter = AddressListAdapter(this@AddressListActivity, addressList ,mSelectAddress )
             rv_address_list.adapter = addressAdapter
 
-            //Don't allow user to edit or delete the address when user is about to select the address.
+            //Не позволяйте пользователю редактировать или удалять адрес, когда он собирается выбрать его.
             if (!mSelectAddress) {
                 //  Добавить swipe, чтобы редактировать элемент.
                 val editSwipeHandler = object : SwipeToEditCallback(this) {

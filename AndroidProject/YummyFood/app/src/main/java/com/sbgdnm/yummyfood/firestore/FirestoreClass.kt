@@ -765,22 +765,22 @@ class FirestoreClass {
     }
 
     /**
-     * A function to place an order of the user in the cloud firestore.
+     *Функция для размещения заказа пользователя в  firestore.
      */
     fun placeOrder(activity: CheckoutActivity, order: Order) {
 
         mFireStore.collection(Constants.ORDERS)
             .document()
-            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            // Здесь order-это поле, а SetOption - это слияние. Это для того, если мы хотим слиться
             .set(order, SetOptions.merge())
             .addOnSuccessListener {
 
-                // Here call a function of base activity for transferring the result to it.
+                //Здесь вызывается функция базовой активности для передачи ей результата.
                 activity.orderPlacedSuccess()
 
             }
             .addOnFailureListener { e ->
-                // Hide the progress dialog if there is any error.
+                //загрузка и ошибка
                 activity.hideProgressDialog()
                 Log.e(
                     activity.javaClass.simpleName,
@@ -792,13 +792,13 @@ class FirestoreClass {
 
 
     /**
-     * A function to update all the required details in the cloud firestore after placing the order successfully.
+     *Функция обновления всех необходимых деталей в облачном магазине firestore после успешного размещения заказа.
      */
     fun updateAllDetails(activity: CheckoutActivity, cartList: ArrayList<Cart>) {
 
         val writeBatch = mFireStore.batch()
 
-        // Here we will update the product stock in the products collection based to cart quantity.
+        // Здесь мы обновим товарный запас в коллекции продуктов на основе количества корзины.
         for (cart in cartList) {
 
             val productHashMap = HashMap<String, Any>()
@@ -812,7 +812,7 @@ class FirestoreClass {
             writeBatch.update(documentReference, productHashMap)
         }
 
-        // Delete the list of cart items
+        // Удаление списка элементов корзины
         for (cart in cartList) {
 
             val documentReference = mFireStore.collection(Constants.CART_ITEMS)
@@ -822,11 +822,11 @@ class FirestoreClass {
 
         writeBatch.commit().addOnSuccessListener {
 
-            //  Finally after performing all the operation notify the user with the success result.
+            // Наконец, после выполнения всех операций уведомите пользователя об успешном результате.
             activity.allDetailsUpdatedSuccessfully()
 
         }.addOnFailureListener { e ->
-            // Here call a function of base activity for transferring the result to it.
+            // загрузка и ошибка
             activity.hideProgressDialog()
 
             Log.e(activity.javaClass.simpleName, "Error while updating all the details after order placed.", e)
@@ -834,13 +834,14 @@ class FirestoreClass {
     }
 
     /**
-     * A function to get the list of orders from cloud firestore.
+     * Функция получения списка заказов из  firestore.
      */
     fun getMyOrdersList(fragment: OrdersFragment) {
         mFireStore.collection(Constants.ORDERS)
             .whereEqualTo(Constants.USER_ID, getCurrentUserID())
-            .get() // Will get the documents snapshots.
+            .get() // получаем документ
             .addOnSuccessListener { document ->
+                //Здесь мы получаем информацию о продукте в виде документа.
                 Log.e(fragment.javaClass.simpleName, document.documents.toString())
                 val list: ArrayList<Order> = ArrayList()
 
@@ -852,15 +853,13 @@ class FirestoreClass {
                     list.add(orderItem)
                 }
 
-                //  Notify the success result to base class.
+                // Сообщите об успешном результате.
                 fragment.populateOrdersListInUI(list)
 
             }
             .addOnFailureListener { e ->
-                // Here call a function of base activity for transferring the result to it.
-
+                // загрузка и ошибка
                 fragment.hideProgressDialog()
-
                 Log.e(fragment.javaClass.simpleName, "Error while getting the orders list.", e)
             }
     }

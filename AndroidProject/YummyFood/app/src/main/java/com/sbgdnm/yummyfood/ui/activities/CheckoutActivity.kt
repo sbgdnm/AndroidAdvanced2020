@@ -35,13 +35,13 @@ class CheckoutActivity : BaseActivity() {
         setContentView(R.layout.activity_checkout)
         setupActionBar()
 
-        // Get the selected address details through intent.
+        // Получите информацию о выбранном адресе через intent.
         if (intent.hasExtra(Constants.EXTRA_SELECTED_ADDRESS)) {
             mAddressDetails =
                 intent.getParcelableExtra<Address>(Constants.EXTRA_SELECTED_ADDRESS)!!
         }
 
-        // Set the selected address details to UI that is received through intent.
+        //Установите выбранные сведения об адресе в пользовательский интерфейс, полученный через intent.
         if (mAddressDetails != null) {
             tv_checkout_address_type.text = mAddressDetails?.type
             tv_checkout_full_name.text = mAddressDetails?.name
@@ -54,7 +54,7 @@ class CheckoutActivity : BaseActivity() {
             tv_mobile_number.text = mAddressDetails?.mobileNumber
         }
 
-        // Assign a click event to the btn place order and call the function.
+        // Назначить событие click
         btn_place_order.setOnClickListener {
             placeAnOrder()
         }
@@ -77,7 +77,7 @@ class CheckoutActivity : BaseActivity() {
     }
 
     /**
-     * A function to get product list to compare the current stock with the cart items.
+     * Функция получения списка товаров для сравнения текущего запаса с товарами корзины.
      */
     private fun getProductList() {
 
@@ -88,7 +88,7 @@ class CheckoutActivity : BaseActivity() {
     }
 
     /**
-     * A function to get the list of cart items in the activity.
+     * Функция для получения списка элементов корзины в действии.
      */
     private fun getCartItemsList() {
 
@@ -96,7 +96,7 @@ class CheckoutActivity : BaseActivity() {
     }
 
     /**
-     * A function to get the success result of product list.
+     * Функция для получения результата успеха списка продуктов.
      */
     fun successProductsListFromFireStore(productsList: ArrayList<DashboardProduct>) {
         mProductsList = productsList
@@ -107,13 +107,13 @@ class CheckoutActivity : BaseActivity() {
 
 
     /**
-     * A function to notify the success result of the cart items list from cloud firestore.
+     * Функция уведомления об успешном результате списка товаров корзины из cloud firestore.
      */
     fun successCartItemsList(cartList: ArrayList<Cart>) {
 
-        // Hide progress dialog.
+        //загрузка
         hideProgressDialog()
-        // Update the stock quantity in the cart list from the product list.
+        // Обновите количество запасов в списке корзины из списка продуктов.
         for (product in mProductsList) {
             for (cart in cartList) {
                 if (product.product_id == cart.product_id) {
@@ -124,16 +124,16 @@ class CheckoutActivity : BaseActivity() {
 
         mCartItemsList = cartList
 
-        //  Populate the cart items in the UI.
+        //  Заполните элементы корзины в пользовательском интерфейсе.
         rv_cart_list_items.layoutManager = LinearLayoutManager(this@CheckoutActivity)
         rv_cart_list_items.setHasFixedSize(true)
 
-        // Pass the required param.
+        // Передайте необходимый парам.
         val cartListAdapter = CartItemsListAdapter(this@CheckoutActivity, mCartItemsList, false)
         rv_cart_list_items.adapter = cartListAdapter
 
 
-        // Replace the subTotal and totalAmount variables with the global variables.
+
         for (item in mCartItemsList) {
 
             val availableQuantity = item.stock_quantity.toInt()
@@ -147,7 +147,7 @@ class CheckoutActivity : BaseActivity() {
         }
 
         tv_checkout_sub_total.text = "TNG $mSubTotal"
-        // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
+
         tv_checkout_shipping_charge.text = "% 10.0"
 
         if (mSubTotal > 0) {
@@ -163,14 +163,14 @@ class CheckoutActivity : BaseActivity() {
 
 
     /**
-     * A function to prepare the Order details to place an order.
+     * Функция подготовки деталей заказа для размещения заказа.
      */
     private fun placeAnOrder() {
 
-        // Show the progress dialog.
+        // загрузка
         showProgressDialog(resources.getString(R.string.please_wait))
 
-        //  Now prepare the order details based on all the required details.
+        //  Теперь подготовьте детали заказа на основе всех необходимых деталей.
         val order = Order(
             FirestoreClass().getCurrentUserID(),
             mCartItemsList,
@@ -184,25 +184,22 @@ class CheckoutActivity : BaseActivity() {
         )
 
 
-        //  Call the function to place the order in the cloud firestore.
+        // Вызовите функцию для размещения заказа в облачном магазине firestore.
         FirestoreClass().placeOrder(this@CheckoutActivity, order)
     }
 
     /**
-     * A function to notify the success result of the order placed.
+     * Функция уведомления об успешном результате размещения заказа.
      */
     fun orderPlacedSuccess() {
-        //Move the below code to "allDetailsUpdatedSuccessfully" function and call the function to update the details after placing the order successfully.
         FirestoreClass().updateAllDetails(this@CheckoutActivity, mCartItemsList)
     }
 
     /**
-     * A function to notify the success result after updating all the required details.
+     * Функция уведомления об успешном результате после обновления всех необходимых деталей.
      */
     fun allDetailsUpdatedSuccessfully() {
 
-        //Move the piece of code from OrderPlaceSuccess to here.
-        // Hide the progress dialog.
         hideProgressDialog()
 
         Toast.makeText(this@CheckoutActivity, "Ваш заказ успешно принят.", Toast.LENGTH_SHORT)
@@ -212,6 +209,5 @@ class CheckoutActivity : BaseActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
-        // END
     }
 }

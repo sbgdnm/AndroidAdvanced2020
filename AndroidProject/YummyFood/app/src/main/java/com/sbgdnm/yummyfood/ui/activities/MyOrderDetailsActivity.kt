@@ -23,7 +23,7 @@ class MyOrderDetailsActivity : AppCompatActivity() {
         setupActionBar()
 
 
-        //  Get the order details through intent.
+        //  Узнать подробности заказа через intent.
         var myOrderDetails: Order = Order()
 
         if (intent.hasExtra(Constants.EXTRA_MY_ORDER_DETAILS)) {
@@ -52,25 +52,20 @@ class MyOrderDetailsActivity : AppCompatActivity() {
 
         tv_order_details_id.text = orderDetails.title
 
-        // Date Format in which the date will be displayed in the UI.
+        // Формат даты, в котором дата будет отображаться в пользовательском интерфейсе.
         val dateFormat = "dd MMM yyyy HH:mm"
-        // Create a DateFormatter object for displaying date in specified format.
+        // объект DateFormatter для отображения даты в заданном формате.
         val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
 
-        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        // Создайте объект календаря, который преобразует значение даты и времени в миллисекундах в дату.
         val calendar: Calendar = Calendar.getInstance()
         calendar.timeInMillis = orderDetails.order_datetime
 
         val orderDateTime = formatter.format(calendar.time)
         tv_order_details_date.text = orderDateTime
-        // END
 
 
-        // Get the difference between the order date time and current date time in hours.
-        // If the difference in hours is 1 or less then the order status will be PENDING.
-        // If the difference in hours is 2 or greater then 1 then the order status will be PROCESSING.
-        // And, if the difference in hours is 3 or greater then the order status will be DELIVERED.
-
+        //разница во времени
         val diffInMilliSeconds: Long = System.currentTimeMillis() - orderDetails.order_datetime
         val diffInHours: Long = TimeUnit.MILLISECONDS.toHours(diffInMilliSeconds)
         Log.e("Difference in Hours", "$diffInHours")

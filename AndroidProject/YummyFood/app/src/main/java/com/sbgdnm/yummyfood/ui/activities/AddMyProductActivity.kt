@@ -28,6 +28,7 @@ class AddMyProductActivity : BaseActivity() , View.OnClickListener {
 
     // Глобальная переменная для URL-адреса загруженного изображения продукта.
     private var mProductImageURL: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_my_product)
